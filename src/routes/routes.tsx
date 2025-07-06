@@ -1,0 +1,175 @@
+import { Navigate, RouteObject } from "react-router-dom";
+import Login from "pages/login";
+import AuthLayout from "layout/auth/AuthLayout";
+import ForgotPassword from "pages/forgot-password";
+import DashboardLayout from "layout/dashboard";
+import StaffPage, { staffRouteName } from "pages/staff/index.page";
+import SubjectPage, { subjectRouteName } from "pages/subject/index.page";
+import StudentPage, { studentRouteName } from "pages/student/index.page";
+import ClassPage, { classRouteName } from "pages/class/index.page";
+import CreateStaffPage, { createStaffRouteName } from "pages/staff/create.page";
+import UpdateStaffPage, { updateStaffRouteName } from "pages/staff/update.page";
+import { DetailClassPage, detailClassRouteName } from "pages/class/detail.page";
+import ContentLibraryPage from "pages/content-library/index.page";
+import CreateStudentPage, { createStudentRouteName } from "pages/student/create-student.page";
+import LeaveRequestPage, { leaveRequestRouteName } from "pages/leave-request/index.page";
+import PresencePage from "pages/presence/index.page";
+import EffectiveDaySettingsPage, { effectiveDaySettingsRouteName } from "pages/effective-day-settings/index.page";
+import EkskulPage, { ekskulRouteName } from "pages/ekskul/index.page";
+import PembimbingEkskulPage, { PembimbingEkskulRouteName } from "pages/pembimbing-ekskul/index.page";
+import AnnouncementPage, { announcementRouteName } from "pages/announcement/index.page";
+import StudentBillPage, { studentBillRouteName } from "pages/student-bill/index.page";
+import StudentLayout from "layout/student";
+import StudentLandingPage from "pages/student-page/landing-page.page";
+import StudentAnnouncementPage from "pages/student-page/announcement.page";
+import StudentEkskulPage from "pages/student-page/ekskul.page";
+import StudentTransactionPage from "pages/student-page/student-bill.page";
+import StudentTransactionSPPPage from "pages/student-bill/section/spp-st.page";
+import StudentTransactionEkskulPage from "pages/student-bill/section/ekskul-st.page";
+
+const protectedRoutes: RouteObject[] = [
+  { path: "*", element: <Navigate to="/dashboard" /> },
+  {
+    path: "",
+    element: <DashboardLayout />,
+    children: [
+      { path: "not-found", element: <>Page Not Found</> },
+      { path: "dashboard", element: <>dashboard</> },
+      {
+        path: staffRouteName,
+        children: [
+          {
+            path: "",
+            element: <StaffPage />,
+          },
+          {
+            path: createStaffRouteName,
+            element: <CreateStaffPage />,
+          },
+          {
+            path: updateStaffRouteName,
+            element: <UpdateStaffPage />,
+          },
+        ],
+      },
+      { path: subjectRouteName, element: <SubjectPage /> },
+      {
+        path: studentRouteName,
+        element: <StudentPage />,
+      },
+      {
+        path: classRouteName,
+        children: [
+          {
+            path: "",
+            element: <ClassPage />,
+          },
+          {
+            path: detailClassRouteName,
+            element: <DetailClassPage />,
+          },
+        ],
+      },
+      { element: <CreateStudentPage/>, path: createStudentRouteName },
+      { element: <>"Jadwal"</>, path: "/schedule" },
+      { element: <>"Alumni"</>, path: "/alumni" },
+      { 
+        path: studentBillRouteName,
+        children: [
+          {
+            path: "",
+            element: <StudentBillPage />,
+          },
+          {
+            path: "/bill/spp",
+            element: <StudentTransactionSPPPage/>,
+          },
+          {
+            path: "/bill/ekstrakulikuler",
+            element: <StudentTransactionEkskulPage/>,
+          },
+        ]
+      },
+      { element: <>"Aset"</>, path: "/asset" },
+      { element: <>"Jadwal Guru"</>, path: "/teacher-schedule" },
+      { element: <ContentLibraryPage />, path: "/materials" },
+      { element: <PresencePage/>, path: "/presence" },
+      { element: <>"Penilaian"</>, path: "/assessment" },
+      { element: <>"Jadwal KBM"</>, path: "/kbm-schedule" },
+      { element: <>"Mading Online"</>, path: "/mading" },
+      { element: <>"LMS"</>, path: "/lms" },
+      { element: <>"Digital Produk"</>, path: "/digital-product" },
+      { element: <>"PPDB"</>, path: "/ppdb" },
+      { element: <LeaveRequestPage/>, path: leaveRequestRouteName },
+      { element: <EffectiveDaySettingsPage/>, path: effectiveDaySettingsRouteName },
+      { element: <EkskulPage/>, path: ekskulRouteName },
+      { element: <PembimbingEkskulPage/>, path: PembimbingEkskulRouteName },
+      { element: <AnnouncementPage/>, path: announcementRouteName },
+    ],
+  },
+];
+
+const publicRoutes: RouteObject[] = [
+  {
+    path: "",
+    element: <AuthLayout />,
+    children: [
+      { path: "", element: <Login /> },
+      { path: "forgot-password", element: <ForgotPassword /> },
+    ],
+  },
+  {
+    path: classRouteName,
+    children: [
+      {
+        path: "",
+        element: <ClassPage />,
+      },
+      {
+        path: detailClassRouteName,
+        element: <DetailClassPage />,
+      },
+    ],
+  },
+  { path: "404", element: <div>Not Found</div> },
+  { path: "*", element: <Navigate to="/" /> },
+];
+
+const studentRoutes: RouteObject[] = [
+  {
+    path: "*",
+    element: <Navigate to="/landingpage" />,
+  },
+  {
+    path: "",
+    element: <StudentLayout />, 
+    children: [
+      {
+        path: "landingpage",
+        element: <StudentLandingPage/>,
+      },
+      {
+        path: "student/grades",
+        element: <>Halaman Nilai</>,
+      },
+      {
+        path: "student/schedule",
+        element: <>Halaman Jadwal</>,
+      },
+      {
+        path: "student/billing",
+        element: <StudentTransactionPage/>,
+      },
+      {
+        path: "student/announcement",
+        element: <StudentAnnouncementPage/>,
+      },
+      {
+        path: "student/ekstrakulikuler",
+        element: <StudentEkskulPage/>,
+      },
+    ],
+  },
+];
+
+export { publicRoutes, protectedRoutes, studentRoutes };

@@ -1,0 +1,36 @@
+export { default as SchoolPng } from "./schooll.png";
+export { default as SchoolBadge } from "./schoolBadge.png";
+export { default as NotifSVG } from "./notification.svg";
+export { default as NotifNormalSVG } from "./notification-normal.svg";
+export { default as DefaultAvatar } from "./default-profile-v2.jpg";
+export { default as LogoutSVG } from "./logout.svg";
+export { default as DownloadSVG } from "./download.svg";
+export { default as DocumentSVG } from "./document.svg";
+export { default as ChevronLeftSVG } from "./chevron-left.svg";
+export { default as ChevronRightSVG } from "./chevron-right.svg";
+export { default as FileUploadSVG } from "./file-upload.svg"
+export { default as FolderUploadSVG } from "./folder.svg";
+export { default as FileSVG } from "./file-solid.svg";
+export { default as FolderSVG } from "./folder-regular.svg";
+// Menu start here
+export { default as SpixCommunityLogoGray } from "./spix-community-gray.png";
+export { default as AbsenceMenuSVG } from "./menu-absence.svg";
+export { default as AlumniMenuSVG } from "./menu-alumni.svg";
+export { default as AssessmentMenuSVG } from "./menu-assessment.svg";
+export { default as AssetMenuSVG } from "./menu-asset.svg";
+export { default as ClassMenuSVG } from "./menu-class.svg";
+export { default as DashboardSVG } from "./menu-dashboard.svg";
+export { default as DigitalProductMenuSVG } from "./menu-digital-product.svg";
+export { default as LearningMaterialMenuSVG } from "./menu-learning-material.svg";
+export { default as LMSMenuSVG } from "./menu-lms.svg";
+export { default as MadingMenuSVG } from "./menu-mading.svg";
+export { default as PPDBMenuSVG } from "./menu-ppdb.svg";
+export { default as ScheduleMenuSVG } from "./menu-schedule.svg";
+export { default as SPPMenuSVG } from "./menu-spp.svg";
+export { default as StaffMenuSVG } from "./menu-staff.svg";
+export { default as StudentMenuSVG } from "./menu-student.svg";
+export { default as SubjectMenuSVG } from "./menu-subject.svg";
+export { default as EkskulMenuSVG } from "./menu-ekskul.svg";
+export { default as AnnouncementMenuSVG } from "./menu-announcement.svg";
+export { default as TagihanMenuSVG } from "./menu-tagihan.svg";
+// Menu end here

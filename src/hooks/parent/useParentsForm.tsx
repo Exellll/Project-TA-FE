@@ -42,11 +42,13 @@ const useParentsForm = (formType: "ayah" | "ibu" | "wali", setStep: Dispatch<Set
     mode: "onSubmit",
     resolver: yupResolver(schema),
     defaultValues: {
+      name: "Toni",
       gender: gender,
-      birth_date: new Date(),
-      education: "-",
-      job: "-",
-      income: "-",
+      nik: "1234567890123456",
+      birth_date: new Date("1990-01-01"),
+      education: "S1",
+      job: "Karyawan Swasta",
+      income: "5.000.000",
       special_needs: "tidak",
     },
   });

@@ -40,6 +40,8 @@ const HeaderName: HeaderMenu[] = [
   { title: "Tagihan Ekskul", path: "bill/ekstrakulikuler" },
   { title: "Tagihan SPP", path: "bill/spp" },
   { title: "Tagihan Siswa", path: "bill" },
+  { title: "Nilai", path: "grade" },
+  { title: "Guru", path: "teacher" },
 ];
 
 export { HeaderName };

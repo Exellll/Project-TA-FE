@@ -11,9 +11,19 @@ export interface Class {
   updatedAt: string
   updatedBy: any
   deletedAt: any
-  class_subject: ClassSubject[]
+  class_subject: [
+    {
+      subject_id: string,
+      title: string,
+    }
+  ]
   homeroom?: Staff
-  class_student: any[]
+  class_student: [
+    {
+      student_id: string,
+      name: string,
+    }
+  ]
 }
 
 export interface ClassSubject {

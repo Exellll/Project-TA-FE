@@ -5,14 +5,15 @@ import {
   MenuItem,
   MenuList,
 } from "@material-tailwind/react";
-import { MdDelete, MdEdit, MdVisibility } from "react-icons/md";
+import { MdDelete, MdEdit, MdVerified, MdVisibility } from "react-icons/md";
 import { Button } from "react-daisyui";
 import { StudentBillI } from "_interfaces/student-bill.interfaces";
 import { StudentTransactionI } from "_interfaces/student-transaction.interfaces";
 
 export const HeaderStudentTransactionSPP = (
   handleDeletePopUp: (id: string) => void,
-  handleModalUpsert: (id: string) => void
+  setSelectedId: (id: string) => void,
+  handleModalUpsert: () => void
 ): Columns<StudentTransactionI>[] => {
   return [
     {
@@ -23,12 +24,16 @@ export const HeaderStudentTransactionSPP = (
       fieldId: "index",
       label: "No",
     },
-    { fieldId: "student_bill.students.name", label: "Nama", render: (data) => (
-      <p className="font-semibold">{data?.student_bill?.students?.name || "-"}</p>
-    )},
-    { fieldId: "student_bill.type", label: "Tipe Tagihan", render: (data) => (
-      <p className="font-semibold">{data?.student_bill?.type}</p>
-    )},
+    {
+      fieldId: "student_bill.students.name", label: "Nama", render: (data) => (
+        <p className="font-semibold">{data?.student_bill?.students?.name || "-"}</p>
+      )
+    },
+    {
+      fieldId: "student_bill.type", label: "Tipe Tagihan", render: (data) => (
+        <p className="font-semibold">{data?.student_bill?.type}</p>
+      )
+    },
     { fieldId: "student_bill.due_date", label: "Tanggal Jatuh Tempo", render: (data) => (<p>{data?.student_bill?.due_date}</p>) },
     {
       fieldId: "student_bill.bill_amount",
@@ -51,11 +56,13 @@ export const HeaderStudentTransactionSPP = (
       label: "Status",
       render: (data) => (
         <p
-          className={`font-semibold ${
-            data?.status === "pending" ? "text-[#FF0000]" : "text-[#45BF43]"
-          }`}
+          className={`font-semibold ${data?.status === "pending" ? "text-yellow-600" : data?.status === "paid" ? "text-[#45BF43]" : data?.status === "not_paid" ? "text-gray-600" : "text-red-600"
+            }`}
         >
-          {data?.status}
+          {data?.status == "pending"
+            ? "Menunggu Verifikasi" : data?.status == "paid"
+              ? "Lunas" : data?.status == "not_paid"
+                ? "Belum Dibayar" : "Telat Bayar"}
         </p>
       ),
     },
@@ -79,32 +86,20 @@ export const HeaderStudentTransactionSPP = (
           >
             <MenuItem
               className="p-0"
-              onClick={() => handleModalUpsert(data?.id!)}
+              onClick={() => {
+                setSelectedId(data?.id!);
+                handleModalUpsert();
+              }}
               onPointerEnterCapture={() => { }}
               onPointerLeaveCapture={() => { }}
               placeholder={""}
             >
               <label
                 htmlFor="item-edit"
-                className="flex cursor-pointer items-center gap-2 p-2 hover:bg-gray-100"
+                className="flex cursor-pointer items-center gap-2 p-2 text-green-500 hover:bg-gray-100"
               >
-                <MdEdit className="mt-1 me-3 h-4 w-4" />
-                Edit
-              </label>
-            </MenuItem>
-            <MenuItem
-              onPointerEnterCapture={() => { }}
-              onPointerLeaveCapture={() => { }}
-              placeholder={""}
-              className="p-0"
-              onClick={() => handleDeletePopUp(data?.id!)}
-            >
-              <label
-                htmlFor="item-delete"
-                className="flex cursor-pointer items-center gap-2 p-2 text-red-800 hover:bg-gray-100"
-              >
-                <MdDelete className="mt-1 me-3 h-4 w-4" />
-                Delete
+                <MdVerified className="mt-1 me-3 h-4 w-4" />
+                Verifikasi
               </label>
             </MenuItem>
           </MenuList>
@@ -114,10 +109,7 @@ export const HeaderStudentTransactionSPP = (
   ];
 };
 
-export const HeaderStudentTransactionEkskul = (
-  handleDeletePopUp: (id: string) => void,
-  handleModalUpsert: (id: string) => void
-): Columns<StudentTransactionI>[] => {
+export const HeaderStudentTransactionSPPPaid = (): Columns<StudentTransactionI>[] => {
   return [
     {
       fieldId: "checkbox",
@@ -127,12 +119,16 @@ export const HeaderStudentTransactionEkskul = (
       fieldId: "index",
       label: "No",
     },
-    { fieldId: "student_bill.students.name", label: "Nama", render: (data) => (
-      <p className="font-semibold">{data?.student_bill?.student_id}</p>
-      )},
-    { fieldId: "student_bill.type", label: "Tipe Tagihan", render: (data) => (
-      <p className="font-semibold">{data?.student_bill?.type}</p>
-      )},
+    {
+      fieldId: "student_bill.students.name", label: "Nama", render: (data) => (
+        <p className="font-semibold">{data?.student_bill?.students?.name || "-"}</p>
+      )
+    },
+    {
+      fieldId: "student_bill.type", label: "Tipe Tagihan", render: (data) => (
+        <p className="font-semibold">{data?.student_bill?.type}</p>
+      )
+    },
     { fieldId: "student_bill.due_date", label: "Tanggal Jatuh Tempo", render: (data) => (<p>{data?.student_bill?.due_date}</p>) },
     {
       fieldId: "student_bill.bill_amount",
@@ -155,11 +151,72 @@ export const HeaderStudentTransactionEkskul = (
       label: "Status",
       render: (data) => (
         <p
-          className={`font-semibold ${
-            data?.status === "pending" ? "text-[#FF0000]" : "text-[#45BF43]"
-          }`}
+          className={`font-semibold ${data?.status === "pending" ? "text-yellow-600" : data?.status === "paid" ? "text-[#45BF43]" : data?.status === "not_paid" ? "text-gray-600" : "text-red-600"
+            }`}
         >
-          {data?.status}
+          {data?.status == "pending"
+            ? "Menunggu Verifikasi" : data?.status == "paid"
+              ? "Lunas" : data?.status == "not_paid"
+                ? "Belum Dibayar" : "Telat Bayar"}
+        </p>
+      ),
+    },
+  ];
+};
+
+export const HeaderStudentTransactionEkskul = (
+  handleDeletePopUp: (id: string) => void,
+  setSelectedId: (id: string) => void,
+  handleModalUpsert: () => void
+): Columns<StudentTransactionI>[] => {
+  return [
+    {
+      fieldId: "checkbox",
+      label: "checkbox",
+    },
+    {
+      fieldId: "index",
+      label: "No",
+    },
+    {
+      fieldId: "student_bill.students.name", label: "Nama", render: (data) => (
+        <p className="font-semibold">{data?.student_bill?.students.name}</p>
+      )
+    },
+    {
+      fieldId: "student_bill.type", label: "Tipe Tagihan", render: (data) => (
+        <p className="font-semibold">{data?.student_bill?.type}</p>
+      )
+    },
+    { fieldId: "student_bill.due_date", label: "Tanggal Jatuh Tempo", render: (data) => (<p>{data?.student_bill?.due_date}</p>) },
+    {
+      fieldId: "student_bill.bill_amount",
+      label: "Jumlah Tagihan",
+      render: (data) => {
+        const amount = Number(data?.student_bill?.bill_amount || 0);
+        return (
+          <p className="font-bold">
+            {new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR",
+              minimumFractionDigits: 0,
+            }).format(amount)}
+          </p>
+        );
+      },
+    },
+    {
+      fieldId: "status",
+      label: "Status",
+      render: (data) => (
+        <p
+          className={`font-semibold ${data?.status === "pending" ? "text-yellow-600" : data?.status === "paid" ? "text-[#45BF43]" : data?.status === "not_paid" ? "text-gray-600" : "text-red-600"
+            }`}
+        >
+          {data?.status == "pending"
+            ? "Menunggu Verifikasi" : data?.status == "paid"
+              ? "Lunas" : data?.status == "not_paid"
+                ? "Belum Dibayar" : "Telat Bayar"}
         </p>
       ),
     },
@@ -183,36 +240,79 @@ export const HeaderStudentTransactionEkskul = (
           >
             <MenuItem
               className="p-0"
-              onClick={() => handleModalUpsert(data?.id!)}
+              onClick={() => {
+                setSelectedId(data?.id!);
+                handleModalUpsert();
+              }}
               onPointerEnterCapture={() => { }}
               onPointerLeaveCapture={() => { }}
               placeholder={""}
             >
               <label
                 htmlFor="item-edit"
-                className="flex cursor-pointer items-center gap-2 p-2 hover:bg-gray-100"
+                className="flex cursor-pointer items-center gap-2 p-2 text-green-500 hover:bg-gray-100"
               >
-                <MdEdit className="mt-1 me-3 h-4 w-4" />
-                Edit
+                <MdVerified className="mt-1 me-3 h-4 w-4" />
+                Verifikasi
               </label>
-            </MenuItem>
-            <MenuItem
-              onPointerEnterCapture={() => { }}
-              onPointerLeaveCapture={() => { }}
-              placeholder={""}
-              className="p-0"
-              onClick={() => handleDeletePopUp(data?.id!)}
-            >
-              <label
-                htmlFor="item-delete"
-                className="flex cursor-pointer items-center gap-2 p-2 text-red-800 hover:bg-gray-100"
-              >
-                <MdDelete className="mt-1 me-3 h-4 w-4" />
-                Delete
-              </label>
-            </MenuItem>
+            </MenuItem>            
           </MenuList>
         </Menu>
+      ),
+    },
+  ];
+};
+
+export const HeaderStudentTransactionEkskulPaid = (): Columns<StudentTransactionI>[] => {
+  return [
+    {
+      fieldId: "checkbox",
+      label: "checkbox",
+    },
+    {
+      fieldId: "index",
+      label: "No",
+    },
+    {
+      fieldId: "student_bill.students.name", label: "Nama", render: (data) => (
+        <p className="font-semibold">{data?.student_bill?.students?.name || "-"}</p>
+      )
+    },
+    {
+      fieldId: "student_bill.type", label: "Tipe Tagihan", render: (data) => (
+        <p className="font-semibold">{data?.student_bill?.type}</p>
+      )
+    },
+    { fieldId: "student_bill.due_date", label: "Tanggal Jatuh Tempo", render: (data) => (<p>{data?.student_bill?.due_date}</p>) },
+    {
+      fieldId: "student_bill.bill_amount",
+      label: "Jumlah Tagihan",
+      render: (data) => {
+        const amount = Number(data?.student_bill?.bill_amount || 0);
+        return (
+          <p className="font-bold">
+            {new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR",
+              minimumFractionDigits: 0,
+            }).format(amount)}
+          </p>
+        );
+      },
+    },
+    {
+      fieldId: "status",
+      label: "Status",
+      render: (data) => (
+        <p
+          className={`font-semibold ${data?.status === "pending" ? "text-yellow-600" : data?.status === "paid" ? "text-[#45BF43]" : data?.status === "not_paid" ? "text-gray-600" : "text-red-600"
+            }`}
+        >
+          {data?.status == "pending"
+            ? "Menunggu Verifikasi" : data?.status == "paid"
+              ? "Lunas" : data?.status == "not_paid"
+                ? "Belum Dibayar" : "Telat Bayar"}
+        </p>
       ),
     },
   ];

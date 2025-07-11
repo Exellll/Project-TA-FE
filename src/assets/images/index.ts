@@ -33,4 +33,5 @@ export { default as SubjectMenuSVG } from "./menu-subject.svg";
 export { default as EkskulMenuSVG } from "./menu-ekskul.svg";
 export { default as AnnouncementMenuSVG } from "./menu-announcement.svg";
 export { default as TagihanMenuSVG } from "./menu-tagihan.svg";
+export { default as TeacherMenuSVG } from "./menu-guru.svg";
 // Menu end here

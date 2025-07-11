@@ -8,6 +8,7 @@ import { useCreateAnnouncementMutation, useDeleteAnnouncementMutation, useGetLis
 import { AnnouncementFormsI, AnnouncementI } from "_interfaces/announcement.interfaces";
 import { title } from "process";
 import { uploadFile, uploadFileLocal } from "_services/modules/file";
+import { toast } from "react-toastify";
 
 
 const useAnnouncementForm = (searchParams: Params, handler?: () => void, id?: string) => {
@@ -65,6 +66,7 @@ const useAnnouncementForm = (searchParams: Params, handler?: () => void, id?: st
             }).unwrap();
 
             handler && handler();
+            toast.success("Pengumuman berhasil dibuat");
             refetch();
             reset({});
         } catch (error) {
@@ -90,6 +92,7 @@ const useAnnouncementForm = (searchParams: Params, handler?: () => void, id?: st
             }).unwrap();
 
             handler && handler();
+            toast.success("Pengumuman berhasil diperbarui");
             refetch();
             reset({});
         } catch (error) {
@@ -128,6 +131,7 @@ const useAnnouncementForm = (searchParams: Params, handler?: () => void, id?: st
             const res = await deleteAnnouncement(id).unwrap();
             if (res) {
                 refetch();
+                toast.success("Pengumuman berhasil dihapus");
             }
         } catch (error) {
             errorHandler(error);

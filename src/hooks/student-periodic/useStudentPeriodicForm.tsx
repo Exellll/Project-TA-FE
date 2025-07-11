@@ -35,6 +35,14 @@ const useStudentPeriodicForm = (setStep: Dispatch<SetStateAction<number>>, setSt
   } = useForm<StudentPeriodicFormI>({
     mode: "onSubmit",
     resolver: yupResolver(schema),
+    defaultValues: {
+      body_height: 150,
+      body_weight: 50,
+      kps_recipients_distance: "Dekat",
+      travel_time_in_hour: 1,
+      travel_time_in_minutes: 30,
+      number_of_sibling: 2,
+    },
   });
 
   const _CreateStudentPeriodic = async (data: StudentPeriodicFormI) => {

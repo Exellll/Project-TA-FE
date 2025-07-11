@@ -72,6 +72,29 @@ export const uploadFileLocal = async (file: File) => {
   }
 };
 
+export const uploadFileST = async (file: File) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await fetch("http://localhost:3003/school/studentTransaction-upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Gagal mengupload file");
+    }
+
+    const data = await response.json();
+    console.log("Upload result:", data);
+    return data.url; // backend akan return URL lokal file
+  } catch (error) {
+    errorHandler(error);
+    throw error;
+  }
+};
+
 
 export const uploadQuizQuestions = async (token: string, file: File) => {
   const bodyFormData = new FormData();

@@ -19,9 +19,14 @@ export default function PembimbingEkskulPage(): React.ReactElement {
   const [selectedId, setSelectedId] = useState<string>("");
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
 
-  const { pembimbing } = usePembimbingEkskulForm(searchParams);
+  const { pembimbing, handleDelete } = usePembimbingEkskulForm(searchParams);
 
-  const handleDeletePopUp = () => {
+  const [idToDelete, setIdToDelete] = useState<string>("");
+
+  const handleDeletePopUp = (id: string) => {
+    if (id) {
+      setIdToDelete(id);
+    }
     setIsDeletePopupOpen(!isDeletePopupOpen);
   };
   const handleModalUpsert = () => {
@@ -42,10 +47,10 @@ export default function PembimbingEkskulPage(): React.ReactElement {
       title="Pembimbing Ekskul"
       data={pembimbing?.pembimbing!}
       params={{ value: searchParams, setValue: setSearchParams }}
-      headerTable={HeaderPembimbing}
+      headerTable={() => HeaderPembimbing(handleDeletePopUp, handleUpdate)}
       handleCreate={handleCreate}
       setSelectedId={setSelectedColumn}
-      remove={{ isOpen: isDeletePopupOpen, handler: handleDeletePopUp, handlerClose: () => setIsDeletePopupOpen(false) }}
+      remove={{ isOpen: isDeletePopupOpen, handler: () => {handleDelete(idToDelete); setIsDeletePopupOpen(false);}, handlerClose: () => setIsDeletePopupOpen(false) }}
       modal={
         <PembimbingEkskulModal
           handler={handleModalUpsert}

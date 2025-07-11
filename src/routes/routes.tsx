@@ -26,6 +26,11 @@ import StudentEkskulPage from "pages/student-page/ekskul.page";
 import StudentTransactionPage from "pages/student-page/student-bill.page";
 import StudentTransactionSPPPage from "pages/student-bill/section/spp-st.page";
 import StudentTransactionEkskulPage from "pages/student-bill/section/ekskul-st.page";
+import GradePage, { gradeRouteName } from "pages/grade/index.page";
+import GradeInputPage, { gradeInputRouteName } from "pages/grade/section/grade-input.page";
+import ViewGradePage, { viewGradeRouteName } from "pages/grade/section/grade-view.page";
+import TeacherPage, { teacherRouteName } from "pages/teacher/index.page";
+
 
 const protectedRoutes: RouteObject[] = [
   { path: "*", element: <Navigate to="/dashboard" /> },
@@ -91,7 +96,7 @@ const protectedRoutes: RouteObject[] = [
         ]
       },
       { element: <>"Aset"</>, path: "/asset" },
-      { element: <>"Jadwal Guru"</>, path: "/teacher-schedule" },
+      { element: <TeacherPage/>, path: teacherRouteName },
       { element: <ContentLibraryPage />, path: "/materials" },
       { element: <PresencePage/>, path: "/presence" },
       { element: <>"Penilaian"</>, path: "/assessment" },
@@ -105,6 +110,10 @@ const protectedRoutes: RouteObject[] = [
       { element: <EkskulPage/>, path: ekskulRouteName },
       { element: <PembimbingEkskulPage/>, path: PembimbingEkskulRouteName },
       { element: <AnnouncementPage/>, path: announcementRouteName },
+      // Halaman Nilai Siswa
+      { element: <GradePage/>, path: gradeRouteName },
+      { element: <GradeInputPage/>, path: gradeInputRouteName},
+      { element: <ViewGradePage/>, path: viewGradeRouteName},
     ],
   },
 ];

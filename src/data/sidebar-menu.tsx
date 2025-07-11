@@ -18,6 +18,7 @@ import {
   StudentMenuSVG,
   SubjectMenuSVG,
   TagihanMenuSVG,
+  TeacherMenuSVG,
 } from "assets/images";
 import { SVGIcon } from "components/icon/SVGIcon";
 
@@ -67,8 +68,20 @@ const menuItems: MenuItem[] = [
     icon: <SVGIcon svg={ClassMenuSVG} className="bg-[#ACACAC]" />,
   },
   {
+    name: "Guru",
+    path: "/teacher",
+    activeIcon: <SVGIcon svg={TeacherMenuSVG} className="bg-white" />,
+    icon: <SVGIcon svg={TeacherMenuSVG} className="bg-[#ACACAC]" />,
+  },
+  {
     name: "Jadwal",
     path: "/schedule",
+    activeIcon: <SVGIcon svg={ScheduleMenuSVG} className="bg-white" />,
+    icon: <SVGIcon svg={ScheduleMenuSVG} className="bg-[#ACACAC]" />,
+  },
+  {
+    name: "Nilai",
+    path: "/grade",
     activeIcon: <SVGIcon svg={ScheduleMenuSVG} className="bg-white" />,
     icon: <SVGIcon svg={ScheduleMenuSVG} className="bg-[#ACACAC]" />,
   },

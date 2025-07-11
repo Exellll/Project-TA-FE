@@ -33,6 +33,12 @@ const useStudentScholarshipsForm = (setStep: Dispatch<SetStateAction<number>>, s
   } = useForm<StudentScholarshipsFormI>({
     mode: "onSubmit",
     resolver: yupResolver(schema),
+    defaultValues: {
+      scholarship_type: "Beasiswa Prestasi",
+      start_year: new Date().getFullYear().toString(),
+      end_year: (new Date().getFullYear() + 1).toString(),
+      description: "Beasiswa untuk siswa berprestasi di bidang akademik.",
+    },
   });
 
   const _CreateStudentScholarships = async (data: StudentScholarshipsFormI) => {

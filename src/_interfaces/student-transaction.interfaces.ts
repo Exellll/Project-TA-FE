@@ -33,7 +33,7 @@ export interface StudentTransactionFormsI {
   bukti_pembayaran: string
   payment_date: string
   status: string
-  file?: File
+  file?: File | null
   deletedAt: any
   createdAt: string
   updatedAt: string

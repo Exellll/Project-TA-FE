@@ -7,6 +7,7 @@ import { errorHandler } from "_services/errorHandler";
 import { Params } from "_interfaces/class.interface";
 import { useCreatePembimbingEkskulMutation, useDeletePembimbingEkskulMutation, useGetListPembimbingEkskulQuery, useUpdatePembimbingEkskulMutation } from "_services/modules/pembimbing-ekskul";
 import { PembimbingI } from "_interfaces/pembimbing-ekskul.interfaces";
+import { toast } from "react-toastify";
 
 
 const usePembimbingEkskulForm = (searchParams: Params, handler?: () => void, id?: string) => {
@@ -47,6 +48,7 @@ const usePembimbingEkskulForm = (searchParams: Params, handler?: () => void, id?
             if (res) {
                 handler && handler();
                 refetch();
+                toast.success("Pembimbing ekskul berhasil dibuat");
                 reset({});
             }
         } catch (error) {
@@ -60,6 +62,7 @@ const usePembimbingEkskulForm = (searchParams: Params, handler?: () => void, id?
             if (res) {
                 handler && handler();
                 refetch();
+                toast.update("Pembimbing ekskul berhasil diperbarui");   
                 reset({});
             }
         } catch (error) {
@@ -72,6 +75,7 @@ const usePembimbingEkskulForm = (searchParams: Params, handler?: () => void, id?
             const res = await deleteEkskul(id).unwrap();
             if (res) {
                 refetch();
+                toast.success("Pembimbing ekskul berhasil dihapus");
             }
         } catch (error) {
             errorHandler(error);

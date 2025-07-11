@@ -19,9 +19,13 @@ export default function AnnouncementPage(): React.ReactElement {
   const [selectedId, setSelectedId] = useState<string>("");
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const { announcements } = useAnnouncementForm(searchParams);
+  const { announcements, handleDelete } = useAnnouncementForm(searchParams);
+  const [idToDelete, setIdToDelete] = useState<string>("");
 
-  const handleDeletePopUp = () => {
+  const handleDeletePopUp = (id: string) => {
+    if(id){
+      setIdToDelete(id);
+    }
     setIsDeletePopupOpen(!isDeletePopupOpen);
   };
   const handleModalUpsert = () => {
@@ -42,10 +46,10 @@ export default function AnnouncementPage(): React.ReactElement {
       title="Pengumuman"
       data={announcements?.announcements!}
       params={{ value: searchParams, setValue: setSearchParams }}
-      headerTable={HeaderAnnouncement}
+      headerTable={() => HeaderAnnouncement(handleDeletePopUp, handleUpdate)}
       handleCreate={handleCreate}
       setSelectedId={setSelectedColumn}
-      remove={{ isOpen: isDeletePopupOpen, handler: handleDeletePopUp }}
+      remove={{ isOpen: isDeletePopupOpen, handler: () => {handleDelete(idToDelete); setIsDeletePopupOpen(false);}, handlerClose: () => setIsDeletePopupOpen(false)}}
       modal={
         <AnnouncementModal
           handler={handleModalUpsert}

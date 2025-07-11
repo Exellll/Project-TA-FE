@@ -5,9 +5,10 @@ import {
   ClassClientToServerEvents,
   ClassServerToClientEvents,
   StaffSubjectI,
+  SubjectI,
 } from "_interfaces/class-subject.interface";
 
-import { useGetListStaffSubjectQuery } from "_services/modules/subject";
+import { useGetListStaffSubjectQuery, useGetListSubjectQuery, useGetListSubjectSocketQuery } from "_services/modules/subject";
 import { resolve } from "path";
 import { HeaderClassSubject } from "pages/class/section/header/class-subject.header";
 import { toast } from "react-toastify";
@@ -16,27 +17,32 @@ const useClassSubject = (
   socket: Socket<ClassServerToClientEvents, ClassClientToServerEvents>,
   class_id: string
 ) => {
-  const [staffSubjectInClass, setStaffSubjectInClass] =
-    useState<StaffSubjectI[]>();
-  const [staffSubjectOutClass, setStaffSubjectOutClass] = useState<
-    StaffSubjectI[]
+
+  const [SubjectsInClass, setSubjectsInClass] =
+    useState<SubjectI[]>();
+    
+  const [SubjectsOutClass, setSubjectsOutClass] = useState<
+    SubjectI[]
   >([]);
-  const { data: listAllStaffSubject, isLoading: isLoadingFetch } =
-    useGetListStaffSubjectQuery({page: 1, limit: 100}); // Fetch data staff subject
+
+  const { data: listAllSubjects, isLoading: isLoadingFetchSubject } =
+  useGetListSubjectSocketQuery({ page: 1, limit: 100 }); // Fetch data subjects
+
+
   const [isLoading, setIsLoading] = useState<boolean>(); // Tambahkan state untuk loading
   const isActionRef = useRef<boolean>(false); // Ref untuk mengelola isAction
 
-  const handleDeleteSubject = (class_id: string, staff_subject_id: string) => {
+  const handleDeleteSubject = (class_id: string, subject_id: string) => {
     isActionRef.current = true; // Update ref
     setIsLoading(true);
-    socket.emit("delete", { class_id, staff_subject_id });
+    socket.emit("delete", { class_id, subject_id });
     setIsLoading(false);
   };
 
-  const handleAddSubject = (class_id: string, staff_subject_id: string) => {
+  const handleAddSubject = (class_id: string, subject_id: string) => {
     isActionRef.current = true; // Update ref
     setIsLoading(true);
-    socket.emit("add", { class_id, staff_subject_id });
+    socket.emit("add", { class_id, subject_id });
     setIsLoading(false);
   };
 
@@ -45,18 +51,18 @@ const useClassSubject = (
     socket.emit("join_room", { class_id });
 
     const fetchStaffSubjectInClass = new Promise((resolve) => {
-      const joinRoomHandler = (data: { subjects: StaffSubjectI[] }) => {
-        setStaffSubjectInClass(data.subjects);
+      const joinRoomHandler = (data: { subjects: SubjectI[] }) => {
+        setSubjectsInClass(data.subjects);
         resolve(data.subjects);
       };
 
-      const addHandler = (data: { staffSubject: StaffSubjectI }) => {
-        const newData = listAllStaffSubject?.find(
-          (item) => item.id === data.staffSubject.id
+      const addHandler = (data: { subject: SubjectI }) => {
+        const newData = listAllSubjects?.find(
+          (item) => item.id === data.subject.id
         );
         if (newData) {
-          setStaffSubjectInClass((prev) => [...(prev || []), newData]);
-          setStaffSubjectOutClass((prev) =>
+          setSubjectsInClass((prev) => [...(prev || []), newData]);
+          setSubjectsOutClass((prev) =>
             prev.filter((item) => item.id !== newData.id)
           );
         }
@@ -66,15 +72,15 @@ const useClassSubject = (
         }
       };
 
-      const deleteHandler = (data: { staff_subject_id: string }) => {
-        const newData = listAllStaffSubject?.find(
-          (item) => item.id === data.staff_subject_id
+      const deleteHandler = (data: { subject_id: string }) => {
+        const newData = listAllSubjects?.find(
+          (item) => item.id === data.subject_id
         );
         if (newData) {
-          setStaffSubjectOutClass((prev) => [...(prev || []), newData]);
+          setSubjectsOutClass((prev) => [...(prev || []), newData]);
         }
-        setStaffSubjectInClass((prev) =>
-          prev?.filter((item) => item.id !== data.staff_subject_id)
+        setSubjectsInClass((prev) =>
+          prev?.filter((item) => item.id !== data.subject_id)
         );
         if (isActionRef.current) {
           toast.success("Data berhasil dihapus dari kelas");
@@ -93,7 +99,7 @@ const useClassSubject = (
 
     try {
       const [allClass, inClass] = await Promise.all([
-        Promise.resolve(listAllStaffSubject),
+        Promise.resolve(listAllSubjects),
         fetchStaffSubjectInClass,
       ]);
 
@@ -101,7 +107,7 @@ const useClassSubject = (
         (item) => !(inClass as any[]).some((inItem) => inItem.id === item.id)
       );
 
-      setStaffSubjectOutClass(tempDataOut ?? []);
+      setSubjectsOutClass(tempDataOut ?? []);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -110,19 +116,19 @@ const useClassSubject = (
   };
 
   useEffect(() => {
-    if (!isLoadingFetch) {
+    if (!isLoadingFetchSubject) {
       initData();
     }
-  }, [class_id, isLoadingFetch]);
+  }, [class_id, isLoadingFetchSubject]);
 
   return {
-    staffSubjectInClass,
-    staffSubjectOutClass,
+    SubjectsInClass,
+    SubjectsOutClass,
     isLoading,
     columns: HeaderClassSubject(),
     handleRowDrop: (
-      fromRow: StaffSubjectI,
-      toRow: StaffSubjectI,
+      fromRow: SubjectI,
+      toRow: SubjectI,
       fromIndex: number | null,
       toIndex: number | null,
       targetTableId: string
@@ -133,7 +139,7 @@ const useClassSubject = (
         handleDeleteSubject(class_id, fromRow.id);
       }
     },
-    isLoadingFetch,
+    isLoadingFetchSubject,
   };
 };
 

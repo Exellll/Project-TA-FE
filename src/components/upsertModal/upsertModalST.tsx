@@ -65,6 +65,7 @@ export default function StudentTransactionModal({
       limit: 20,
       page: 1,
     },
+    onSuccess,
     handler,
     id
   );
@@ -163,4 +164,8 @@ export default function StudentTransactionModal({
       </form>
     </Modal>
   );
+}
+
+function onSuccess(): void {
+  throw new Error("Function not implemented.");
 }

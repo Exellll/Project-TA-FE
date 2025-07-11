@@ -13,7 +13,7 @@ const StudentTransactionPage: React.FC = () => {
   const user = useAppSelector((state) => state.auth.user);
   const id = user?.id;
 
-  const { data: transactionsData } = useGetStudentTransactionByStudentIdQuery(id!);
+  const { data: transactionsData, refetch } = useGetStudentTransactionByStudentIdQuery(id!);
   const [payModal, setPayModal] = useState(false);
   const [selectedBill, setSelectedBill] = useState<StudentTransactionI | null>(null);
   const [bukti, setBukti] = useState<File | null>(null);
@@ -36,10 +36,10 @@ const StudentTransactionPage: React.FC = () => {
                   {item.student_bill?.students.name}
                 </h2>
                 <span className={`text-sm font-semibold ${item.status === 'paid' ? 'text-green-600' :
-                  item.status === 'pending' ? 'text-yellow-600' :
+                  item.status === 'pending' ? 'text-yellow-600' : item.status === 'not_paid' ? 'text-gray-600' :
                     'text-red-600'
                   }`}>
-                  {item.status === 'paid' ? 'Lunas' :
+                  {item.status === 'paid' ? 'Lunas' : item.status === 'not_paid' ? 'Belum Dibayar' :
                     item.status === 'pending' ? 'Menunggu Verifikasi' : 'Telat Bayar'}
                 </span>
               </div>
@@ -59,7 +59,7 @@ const StudentTransactionPage: React.FC = () => {
                   Lihat Bukti Pembayaran
                 </a>
               )}
-              {item.status === 'pending' && (
+              {item.status === 'not_paid' && (
                 <div className="mt-4">
                   <Button size="sm" color="primary" onClick={() => { setSelectedBill(item); setIsOpen(true); }}>Bayar Sekarang</Button>
                 </div>
@@ -71,10 +71,14 @@ const StudentTransactionPage: React.FC = () => {
         )}
       </div>
 
-      <UploadPaymentModal
-        isOpen={isOpen}
-        handler={() => setIsOpen(false)}
-      />
+      {selectedBill && (
+        <UploadPaymentModal
+          isOpen={isOpen}
+          handler={() => {setIsOpen(false); setSelectedBill(null);}}
+          id={selectedBill?.id}
+          onSuccess={() => refetch()}
+        />
+      )}
     </div>
   );
 };

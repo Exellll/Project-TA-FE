@@ -6,13 +6,18 @@ import {
   SubjectReqID,
   SubjectsFormsI,
 } from "_interfaces/subject.interfaces";
-import { StaffSubjectI } from "_interfaces/class-subject.interface";
+import { StaffSubjectI, SubjectI } from "_interfaces/class-subject.interface";
 
 export const subjectApi = Api.injectEndpoints({
   endpoints: (build) => ({
     getListSubject: build.query<SubjectResI, SubjectReqI>({
       query: (param) =>
         `http://localhost:3003/school/subject?page=${param.page}&limit=${param.limit}`,
+      keepUnusedDataFor: 0,
+    }),
+    getListSubjectSocket: build.query<SubjectI[], {}>({
+      query: (param) =>
+        `http://localhost:3003/school/subject-socket`,
       keepUnusedDataFor: 0,
     }),
     getListStaffSubject: build.query<StaffSubjectI[], {}>({
@@ -59,4 +64,5 @@ export const {
   useUpdateSubjectMutation,
   useDeleteSubjectMutation,
   useGetListStaffSubjectQuery,
+  useGetListSubjectSocketQuery
 } = subjectApi;

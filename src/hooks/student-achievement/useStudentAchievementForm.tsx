@@ -51,6 +51,26 @@ const useStudentAchievementForm = (
   } = useForm<StudentAchievementFormI>({
     mode: "onSubmit",
     resolver: yupResolver(schema),
+    defaultValues: {
+      achievements: [
+        {
+          achievement_type: "Akademik",
+          achievement_level: "Nasional",
+          name: "Olimpiade Matematika",
+          organizer: "Kementerian Pendidikan",
+          year: "2023",
+          rank: "1",
+        },
+        {
+          achievement_type: "Non-Akademik",
+          achievement_level: "Provinsi",
+          name: "Lomba Futsal",
+          organizer: "Dinas Pemuda dan Olahraga",
+          year: "2022",
+          rank: "2",
+        },
+      ],
+    },
   });
 
   const _CreateStudentAchievement = async (data: StudentAchievementFormI) => {

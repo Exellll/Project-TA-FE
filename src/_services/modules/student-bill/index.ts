@@ -1,5 +1,11 @@
 import { Api } from "_services/api";
-import { StudentBillI, StudentBillReqI, StudentBillResI } from "_interfaces/student-bill.interfaces";
+import {
+  CreateStudentBillByClassI,
+  StudentBillFormI,
+  StudentBillI,
+  StudentBillReqI,
+  StudentBillResI,
+} from "_interfaces/student-bill.interfaces";
 
 export const studentBillApi = Api.injectEndpoints({
   endpoints: (build) => ({
@@ -12,7 +18,7 @@ export const studentBillApi = Api.injectEndpoints({
       query: (id) => `http://localhost:3003/school/student-bill/${id}`,
       keepUnusedDataFor: 0,
     }),
-    createStudentBill: build.mutation<{ success: boolean }, StudentBillI>({
+    createStudentBill: build.mutation<{ success: boolean }, StudentBillFormI>({
       query(body) {
         return {
           url: `http://localhost:3003/school/student-bill`,
@@ -21,7 +27,19 @@ export const studentBillApi = Api.injectEndpoints({
         };
       },
     }),
-    updateStudentBill: build.mutation<{ success: boolean }, StudentBillI>({
+    createBillsByClassId: build.mutation<
+      { message: string },
+      CreateStudentBillByClassI
+    >({
+      query({ class_id, ...payload }) {
+        return {
+          url: `http://localhost:3003/school/student-bill/class/${class_id}`,
+          method: "POST",
+          body: payload,
+        };
+      },
+    }),
+    updateStudentBill: build.mutation<{ success: boolean }, StudentBillFormI>({
       query(body) {
         return {
           url: `http://localhost:3003/school/student-bill/${body.id}`,
@@ -45,6 +63,7 @@ export const {
   useGetListStudentBillQuery,
   useGetStudentBillByIdQuery,
   useCreateStudentBillMutation,
+  useCreateBillsByClassIdMutation,
   useUpdateStudentBillMutation,
   useDeleteStudentBillMutation,
 } = studentBillApi;

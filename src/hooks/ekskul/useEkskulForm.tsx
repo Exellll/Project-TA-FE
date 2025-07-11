@@ -7,6 +7,7 @@ import { errorHandler } from "_services/errorHandler";
 import { Params } from "_interfaces/class.interface";
 import { useCreateEkskulMutation, useDeleteEkskulMutation, useGetListEkskulQuery, useUpdateEkskulMutation } from "_services/modules/ekskul";
 import { EkskulFormsI, EkskulI } from "_interfaces/ekskul.interfaces";
+import { toast } from "react-toastify";
 
 
 
@@ -52,6 +53,7 @@ const useEkskulForm = (searchParams : Params, handler?: () => void, id?: string)
       if (res) {
         handler && handler();
         refetch();
+        toast.success("Ekskul berhasil dibuat");
         reset({ });
       }
     } catch (error) {
@@ -65,6 +67,7 @@ const useEkskulForm = (searchParams : Params, handler?: () => void, id?: string)
       if (res) {
         handler && handler();
         refetch();
+        toast.success("Ekskul berhasil diperbarui");
         reset({});
       }
     } catch (error) {
@@ -77,6 +80,7 @@ const useEkskulForm = (searchParams : Params, handler?: () => void, id?: string)
       const res = await deleteEkskul(id).unwrap();
       if (res) {
         refetch();
+        toast.success("Ekskul berhasil dihapus");
       }
     } catch (error) {
       errorHandler(error);

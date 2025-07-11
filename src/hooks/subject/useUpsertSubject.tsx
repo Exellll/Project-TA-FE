@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { errorHandler } from "_services/errorHandler";
 import { SubjectReqI, SubjectsFormsI, SubjectsI } from "_interfaces/subject.interfaces";
 import { Params } from "_interfaces/class.interface";
+import { toast } from "react-toastify";
 
 const useSubjectForm = (searchParams : Params, handler?: () => void, id?: string) => {
   const [create, { isLoading }] = useCreateSubjectMutation();
@@ -44,6 +45,7 @@ const useSubjectForm = (searchParams : Params, handler?: () => void, id?: string
       if (res) {
         handler && handler();
         refetch();
+        toast.success("Subject berhasil dibuat");
         reset({title: "", group: "", status: "active"});
       }
     } catch (error) {
@@ -57,6 +59,7 @@ const useSubjectForm = (searchParams : Params, handler?: () => void, id?: string
       if (res) {
         handler && handler();
         refetch();
+        toast.success("Subject berhasil diperbarui");
         reset({ title: "", group: "", status: "active"});
       }
     } catch (error) {

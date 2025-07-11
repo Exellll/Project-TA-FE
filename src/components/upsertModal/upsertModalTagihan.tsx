@@ -1,16 +1,14 @@
-import { useGetSubjectByIdQuery } from "_services/modules/subject";
 import CInput from "components/input";
-import ValidationError from "components/validation/error";
-import { GroupSubjectsList, StudentBillTypeList } from "data/options";
-import useSubjectForm from "hooks/subject/useUpsertSubject";
+import { StudentBillTypeList } from "data/options";
 import { useEffect, useState } from "react";
 import { Button, Modal } from "react-daisyui";
 import { Controller } from "react-hook-form";
 import ReactSelect from "react-select";
-import { Radio } from "@material-tailwind/react";
 import useStudentBillForm from "hooks/student-bill/useStudentBillForm";
 import { useGetStudentBillByIdQuery } from "_services/modules/student-bill";
 import useStudentsForm from "hooks/student/useStudentsForm";
+import useClassManagement from "hooks/class/useClassManagement";
+import { data } from "react-router-dom";
 
 interface props {
   id?: string;
@@ -33,7 +31,7 @@ export default function StudentBillModal({
   });
 
   useEffect(() => {
-    if (studentBillById) {
+    if (studentBillById && students?.students?.length) {
       reset({
         student_id: studentBillById.student_id,
         type: studentBillById.type,
@@ -41,15 +39,17 @@ export default function StudentBillModal({
         bill_amount: studentBillById.bill_amount
       });
     }
-  }, [studentBillById]);
+  }, [studentBillById, students]);
 
   const {
     register,
     handleCreate,
     handleUpdate,
+    handleCreateByClass,
     reset,
     isLoading,
     isLoadingUpdate,
+    isLoadingCreateByClass,
     control,
     errors,
   } = useStudentBillForm(
@@ -62,53 +62,78 @@ export default function StudentBillModal({
     id
   );
 
+  const [mode, setMode] = useState<'class' | 'student'>('class');
+  const { listData } = useClassManagement();
+
   return (
     <Modal
       open={isOpen}
       backdrop={false}
       className="flex flex-col bg-white lg:min-w-[900px]"
     >
-      <form onSubmit={type === "create" ? handleCreate : async (e?: React.BaseSyntheticEvent) => {await handleUpdate(e); refetch();}}>
+      <form onSubmit={type === "create" ? mode ===  'class' ?  handleCreateByClass : handleCreate : async (e?: React.BaseSyntheticEvent) => { await handleUpdate(e); refetch(); }}>
         <Modal.Body className="flex flex-col justify-start items-start">
           <p className="text-xl font-semibold text-start">
             {type === "create" ? "Form Create" : "Form Edit"} Tagihan Siswa
           </p>
           <div className="flex flex-col gap-2 w-full pt-1">
-            <label className="font-base">Siswa</label>
-            <Controller
-              control={control}
-              name="student_id"
-              render={({
-                field: { value, onChange },
-              }: {
-                field: { value: string; onChange: (value: any) => void };
-              }) => (
-                <ReactSelect
-                  styles={{
-                    control: (baseStyle) => ({
-                      ...baseStyle,
-                      padding: 5,
-                      borderColor: "#BDBDBD",
-                      borderRadius: "0.5rem",
-                    }),
-                  }}
-                  isLoading={isStudentLoading}
-                  options={(students?.students || []).map((students) => ({
-                    label: students.name,
-                    value: students.id,
-                  }))}
-                  value={(students?.students || [])
-                    .map((students) => ({
-                      label: students.name,
-                      value: students.id,
-                    }))
-                    .find((opt) => opt.value === value)}
-                  key={value}
-                  onChange={(e) => onChange(e?.value)}
-                />
-              )}
+            <label className="font-base">Mode Pembuatan</label>
+            <ReactSelect
+              options={[
+                { label: 'Berdasarkan Kelas', value: 'class' },
+                { label: 'Berdasarkan Siswa', value: 'student' },
+              ]}
+              value={{
+                label: mode === 'class' ? 'Berdasarkan Kelas' : 'Berdasarkan Siswa',
+                value: mode,
+              }}
+              onChange={(e) => setMode(e?.value as 'class' | 'student')}
             />
           </div>
+          {mode === 'student' ? (
+            <div className="flex flex-col gap-2 w-full pt-1">
+              <label className="font-base">Siswa</label>
+              <Controller
+                control={control}
+                name="student_id"
+                render={({ field: { value, onChange } }) => (
+                  <ReactSelect
+                    isLoading={isStudentLoading}
+                    options={students?.students.map((s) => ({
+                      label: s.name,
+                      value: s.student_id,
+                    }))}
+                    value={students?.students
+                      .map((s) => ({ label: s.name, value: s.student_id }))
+                      .find((opt) => opt.value === value)}
+                    onChange={(e) => onChange(e?.value)}
+                    placeholder="Pilih Siswa"
+                  />
+                )}
+              />
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2 w-full pt-1">
+              <label className="font-base">Kelas</label>
+              <Controller
+                control={control}
+                name="class_id"
+                render={({ field: { value, onChange } }) => (
+                  <ReactSelect
+                    options={listData?.data.map((kelas) => ({
+                      label: kelas.name,
+                      value: kelas.id,
+                    }))}
+                    value={listData?.data
+                      .map((kelas) => ({ label: kelas.name, value: kelas.id }))
+                      .find((opt) => opt.value === value)}
+                    onChange={(e) => onChange(e?.value)}
+                    placeholder="Pilih Kelas"
+                  />
+                )}
+              />
+            </div>
+          )}
           <div className="flex flex-col gap-2 w-full pt-1">
             <label className="font-base">Tipe Tagihan</label>
             <Controller
@@ -184,7 +209,7 @@ export default function StudentBillModal({
             type="button"
             onClick={() => {
               handler();
-              reset({});
+              reset({ student_id: "", class_id: "", type: "", due_date: "", bill_amount: "" });
             }}
           >
             Keluar
@@ -192,7 +217,7 @@ export default function StudentBillModal({
           <Button
             type="submit"
             className="w-[30%] lg:w-[20%] rounded-xl hover:text-blue-ribbon bg-blue-ribbon text-white hover:bg-white/90 hover:border-blue-ribbon"
-            loading={isLoading || isLoadingUpdate}
+            loading={isLoadingCreateByClass || isLoadingUpdate}
           >
             Simpan
           </Button>

@@ -35,6 +35,12 @@ const useStudentContactForm = (setStep: Dispatch<SetStateAction<number>>, setSte
   } = useForm<StudentContactFormI>({
     mode: "onSubmit",
     resolver: yupResolver(schema),
+    defaultValues: {
+      home_phone_number: "0211234567",
+      student_phone_number: "081234567890",
+      email: "student@example.com",
+      parent_email: "parent@example.com",
+    },
   });
 
   const _CreateStudentContact = async (data: StudentContactFormI) => {

@@ -5,14 +5,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { errorHandler } from "_services/errorHandler";
 import { Params } from "_interfaces/class.interface";
-import { useCreateStudentBillMutation, useDeleteStudentBillMutation, useGetListStudentBillQuery, useUpdateStudentBillMutation } from "_services/modules/student-bill";
-import { StudentBillI } from "_interfaces/student-bill.interfaces";
+import { useCreateBillsByClassIdMutation, useCreateStudentBillMutation, useDeleteStudentBillMutation, useGetListStudentBillQuery, useUpdateStudentBillMutation } from "_services/modules/student-bill";
+import { CreateStudentBillByClassI, StudentBillFormI, StudentBillI } from "_interfaces/student-bill.interfaces";
 import _ from "lodash";
+import { toast } from "react-toastify";
 
 const useStudentBillForm = (searchParams: Params, handler?: () => void, id?: string) => {
     const [create, { isLoading }] = useCreateStudentBillMutation();
     const [update, { isLoading: isLoadingUpdate }] = useUpdateStudentBillMutation();
     const [deleteBill, { isLoading: isLoadingDeleteBill }] = useDeleteStudentBillMutation();
+    const [createByClass, { isLoading: isLoadingCreateByClass }] = useCreateBillsByClassIdMutation();
 
     const { data, refetch } = useGetListStudentBillQuery(searchParams, { skip: !searchParams.page && !searchParams.limit });
 
@@ -20,7 +22,8 @@ const useStudentBillForm = (searchParams: Params, handler?: () => void, id?: str
 
     const schema = yup
         .object({
-            name: yup.string().required("Nama harus diisi"),
+            student_id: yup.string().optional(),
+            class_id: yup.string().optional(),
             type: yup.string().required("Tipe tagihan harus diisi"),
             due_date: yup.string().required("Tanggal jatuh tempo harus diisi"),
             bill_amount: yup.string().required("Jumlah tagihan harus diisi"),
@@ -33,31 +36,56 @@ const useStudentBillForm = (searchParams: Params, handler?: () => void, id?: str
         watch,
         reset,
         control,
-    } = useForm<StudentBillI>({
+    } = useForm<StudentBillFormI>({
         mode: "onSubmit",
         resolver: yupResolver(schema),
-        defaultValues: {}
+        defaultValues: {
+            student_id: "",
+            type: "",
+            due_date: "",
+            bill_amount: "",
+        }
     });
 
-    const _CreateStudentBill = async (data: StudentBillI) => {
+    const _CreateStudentBill = async (data: StudentBillFormI) => {
         try {
             const res = await create({ ...data }).unwrap();
             if (res) {
                 handler && handler();
                 refetch();
-                reset({});
+                toast.success("Tagihan siswa berhasil dibuat");
+                reset({ student_id: "", type: "", due_date: "", bill_amount: "" });
             }
         } catch (error) {
             errorHandler(error);
         }
     };
 
-    const _UpdateStudentBill = async (data: StudentBillI) => {
+    const _CreateStudentBillByClass = async (data: StudentBillFormI) => {
+        try {
+            const payload: CreateStudentBillByClassI = {
+                class_id: data.class_id, // karena name di form tetap student_id
+                type: data.type,
+                due_date: data.due_date,
+                bill_amount: data.bill_amount,
+            };
+            await createByClass(payload).unwrap();
+            handler && handler();
+            refetch();
+            toast.success("Tagihan berhasil dibuat untuk semua siswa di kelas");
+            reset({ student_id: "", type: "", due_date: "", bill_amount: "" });
+        } catch (error) {
+            errorHandler(error);
+        }
+    };
+
+    const _UpdateStudentBill = async (data: StudentBillFormI) => {
         try {
             const res = await update({ ...data, id: id! }).unwrap();
             if (res) {
                 handler && handler();
                 refetch();
+                toast.update("Tagihan siswa berhasil diperbarui");
                 reset({});
             }
         } catch (error) {
@@ -71,6 +99,7 @@ const useStudentBillForm = (searchParams: Params, handler?: () => void, id?: str
             if (res) {
                 handler && handler();
                 refetch();
+                toast.success("Tagihan siswa berhasil dihapus");
             }
         } catch (error) {
             errorHandler(error);
@@ -79,6 +108,7 @@ const useStudentBillForm = (searchParams: Params, handler?: () => void, id?: str
 
     const handleCreate = handleSubmit(_CreateStudentBill);
     const handleUpdate = handleSubmit(_UpdateStudentBill);
+    const handleCreateByClass = handleSubmit(_CreateStudentBillByClass);
     const handleDelete = (id: string) => {
         _DeleteStudentBill(id);
     };
@@ -93,10 +123,12 @@ const useStudentBillForm = (searchParams: Params, handler?: () => void, id?: str
         handleCreate,
         handleUpdate,
         handleDelete,
+        handleCreateByClass,
         studentBills: data,
         isLoading,
         isLoadingUpdate,
-        isLoadingDeleteBill
+        isLoadingDeleteBill,
+        isLoadingCreateByClass,
     };
 };
 

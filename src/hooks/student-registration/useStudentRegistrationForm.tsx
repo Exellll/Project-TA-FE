@@ -37,6 +37,16 @@ const useStudentRegistrationForm = (setStep: Dispatch<SetStateAction<number>>, s
   } = useForm<StudentRegistrationFormI>({
     mode: "onSubmit",
     resolver: yupResolver(schema),
+    defaultValues: {
+      registration_type: "Baru",
+      nis: "1234567890",
+      join_date: new Date().toISOString().split("T")[0],
+      previous_school: "SDN 01 Jakarta",
+      no_examinee: "9876543210",
+      no_ijazah: "IJZ1234567890",
+      no_skhus: "SKHUS1234567890",
+      skill_competency: "Matematika, Bahasa Indonesia, IPA",
+    },
   });
 
   const _CreateStudentRegistration = async (data: StudentRegistrationFormI) => {

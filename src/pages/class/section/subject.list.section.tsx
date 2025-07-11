@@ -27,11 +27,11 @@ const socket: Socket<ClassServerToClientEvents, ClassClientToServerEvents> = io(
 export const SubjectList: React.FC<SubjectListProps> = ({ class_id }) => {
   const {
     isLoading,
-    isLoadingFetch,
-    staffSubjectInClass,
+    isLoadingFetchSubject,
+    SubjectsInClass,
     columns,
     handleRowDrop,
-    staffSubjectOutClass,
+    SubjectsOutClass,
   } = useClassSubject(socket, class_id);
 
   return (
@@ -39,12 +39,12 @@ export const SubjectList: React.FC<SubjectListProps> = ({ class_id }) => {
       <>
         <div className="bg-white rounded-lg shadow-lg p-6">
           <h2 className="text-lg font-semibold mb-4">
-            Daftar Mata Pelajaran 1
+            Daftar Mata Pelajaran Di Kelas
           </h2>
           <DragDropTable
-            data={staffSubjectInClass ?? []}
+            data={SubjectsInClass ?? []}
             columns={columns}
-            isLoading={isLoading || isLoadingFetch}
+            isLoading={isLoading || isLoadingFetchSubject}
             listAccessDrop={["B"]}
             onRowDrop={(fromRow, toRow, fromIndex, toIndex, targetTableId) => {
               handleRowDrop(
@@ -60,11 +60,11 @@ export const SubjectList: React.FC<SubjectListProps> = ({ class_id }) => {
         </div>
         <div className="h-8"></div>
         <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-lg font-semibold mb-4">Daftar Staff Subject</h2>
+          <h2 className="text-lg font-semibold mb-4">Daftar Mata Pelajaran yang Tersedia</h2>
           <DragDropTable
-            data={staffSubjectOutClass!}
+            data={SubjectsOutClass!}
             columns={columns}
-            isLoading={isLoading || isLoadingFetch}
+            isLoading={isLoading || isLoadingFetchSubject}
             listAccessDrop={["B"]}
             onRowDrop={(fromRow, toRow, fromIndex, toIndex, targetTableId) => {
               handleRowDrop(

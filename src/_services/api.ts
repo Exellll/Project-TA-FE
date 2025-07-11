@@ -56,5 +56,6 @@ const baseQueryWithInterceptor: BaseQueryFn<
 export const Api = createApi({
   baseQuery: baseQueryWithInterceptor,
   reducerPath: "api",
+  tagTypes: ["Grade"],
   endpoints: () => ({}),
 });

@@ -34,7 +34,7 @@ export const StudentList: React.FC<StudentsListProps> = ({ class_id }) => {
       <>
         <div className="bg-white rounded-lg shadow-lg p-6">
           <h2 className="text-lg font-semibold mb-4">
-            Daftar Students Di Kelas
+            Daftar Siswa Di Kelas
           </h2>
           <DragDropTable
             data={studentsInClass ?? []}
@@ -55,7 +55,7 @@ export const StudentList: React.FC<StudentsListProps> = ({ class_id }) => {
         </div>
         <div className="h-8"></div>
         <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-lg font-semibold mb-4">Daftar Students</h2>
+          <h2 className="text-lg font-semibold mb-4">Daftar Seluruh Siswa</h2>
           <DragDropTable
             data={studentsOutClass!}
             columns={columns}

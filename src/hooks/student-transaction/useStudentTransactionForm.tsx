@@ -5,25 +5,38 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { errorHandler } from "_services/errorHandler";
 import { Params } from "_interfaces/class.interface";
-import { useCreateStudentTransactionMutation, useDeleteStudentTransactionMutation, useGetListStudentTransactionQuery, useUpdateStudentTransactionMutation } from "_services/modules/student-transaction";
+import { useCreateStudentTransactionMutation, useDeleteStudentTransactionMutation, useGetListStudentTransactionQuery, useUpdateStudentTransactionMutation, usePayStudentTransactionMutation, useVerifyStudentTransactionMutation } from "_services/modules/student-transaction";
 import { StudentTransactionFormsI, StudentTransactionI, StudentTransactionParams } from "_interfaces/student-transaction.interfaces";
+import { uploadFileST } from "_services/modules/file";
+import { toast } from "react-toastify";
+import { on } from "events";
 
-const useStudentTransactionForm = (searchParams: StudentTransactionParams, handler?: () => void, id?: string) => {
+const useStudentTransactionForm = (searchParams: StudentTransactionParams, onSuccess?: () => void, handler?: () => void, id?: string) => {
     const [create, { isLoading }] = useCreateStudentTransactionMutation();
     const [update, { isLoading: isLoadingUpdate }] = useUpdateStudentTransactionMutation();
     const [deleteTransaction, { isLoading: isLoadingDeleteTransaction }] = useDeleteStudentTransactionMutation();
+    const [payStudentTransaction, { isLoading: isLoadingPay }] = usePayStudentTransactionMutation();
+    const [verifyStudentTransaction, { isLoading: isLoadingVerif }] = useVerifyStudentTransactionMutation();
 
     const { data, refetch } = useGetListStudentTransactionQuery(searchParams, { skip: !searchParams.page && !searchParams.limit });
 
-    const navigate = useNavigate();
+    const validFileExtensions = ["image/jpeg", "image/jpg", "image/png", "application/pdf"];
+    const maxFileSize = 2 * 1024 * 1024;
 
     const schema = yup
         .object({
-            student_id: yup.string().required("ID Siswa harus diisi"),
-            student_bill_id: yup.string().optional(),
-            bukti_pembayaran: yup.string().required("Bukti pembayaran harus diisi"),
-            payment_date: yup.string().required("Tanggal pembayaran harus diisi"),
-            status: yup.string().required("Status harus diisi"),
+            file: yup
+                .mixed<File>()
+                .nullable()
+                .test(
+                    "fileType",
+                    "Format file tidak valid, hanya mendukung jpeg, jpg, png dan pdf",
+                    (value) => !value || (value && validFileExtensions.includes(value.type))
+                ).test(
+                    "fileSize",
+                    "Ukuran file terlalu besar, maksimal 2MB",
+                    (value) => !value || (value && value.size <= maxFileSize)
+                ).when("type", { is: "file", then: yup.mixed<File>().required("File is required") }),
         }).required();
 
     const {
@@ -33,12 +46,30 @@ const useStudentTransactionForm = (searchParams: StudentTransactionParams, handl
         watch,
         reset,
         control,
-        setValue
+        setValue,
+        setError,
+        clearErrors,
     } = useForm<StudentTransactionFormsI>({
         mode: "onSubmit",
         resolver: yupResolver(schema),
-        defaultValues: {}
+        defaultValues: {
+            file: null,
+        }
     });
+
+    const handleFileChange = (key: string, file: File | null) => {
+        const name = key as 'file';
+        if (!file) {
+            setError(name, { type: "manual", message: "File wajib diunggah" });
+        } else if (file.size > maxFileSize) {
+            setError(name, { type: "manual", message: "Ukuran file terlalu besar, maksimal 2MB" });
+        } else if (!validFileExtensions.includes(file.type)) {
+            setError(name, { type: "manual", message: "Format file tidak valid" });
+        } else {
+            clearErrors(name); // Clear any existing errors once the file is valid
+        }
+        setValue(name, file);
+    };
 
     const _CreateStudentTransaction = async (data: StudentTransactionFormsI) => {
         try {
@@ -55,14 +86,45 @@ const useStudentTransactionForm = (searchParams: StudentTransactionParams, handl
 
     const _UpdateStudentTransaction = async (data: StudentTransactionFormsI) => {
         try {
-            const res = await update({ ...data, id: id! }).unwrap();
+            // Upload file dulu
+            const file = data.file;
+            let uploadedUrl = "";
+
+            if (file) {
+                uploadedUrl = await uploadFileST(file); // ← upload ke server lokal
+                console.log("Uploaded URL:", uploadedUrl);
+            } else {
+                throw new Error("File tidak ditemukan");
+            }
+
+            const payload = {
+                id: id,
+                bukti_pembayaran: uploadedUrl,
+                payment_date: data.payment_date || new Date().toISOString(),
+            };
+
+            const res = await payStudentTransaction({ ...payload, id }).unwrap();
+
             if (res) {
                 handler && handler();
-                refetch();
+                onSuccess && onSuccess();
+                toast.success("Pembayaran tagihan siswa berhasil");
                 reset({});
             }
-        } catch (error) {
+        } catch (error: any) {
+            console.log("PAY ERROR:", error);
             errorHandler(error);
+        }
+    };
+
+    const handleVerify = async (id: string) => {
+        try {
+            await verifyStudentTransaction(id).unwrap();
+            onSuccess && onSuccess();
+            toast.success("Pembayaran berhasil diverifikasi");
+        } catch (error) {
+            toast.error("Gagal verifikasi pembayaran");
+            console.error(error);
         }
     };
 
@@ -70,7 +132,6 @@ const useStudentTransactionForm = (searchParams: StudentTransactionParams, handl
         try {
             const res = await deleteTransaction(id).unwrap();
             if (res) {
-                handler && handler();
                 refetch();
             }
         } catch (error) {
@@ -89,6 +150,8 @@ const useStudentTransactionForm = (searchParams: StudentTransactionParams, handl
         handleCreate,
         handleUpdate,
         handleDelete,
+        handleFileChange,
+        handleVerify,
         errors,
         register,
         watch,
@@ -97,6 +160,8 @@ const useStudentTransactionForm = (searchParams: StudentTransactionParams, handl
         studentTransactions: data,
         isLoading,
         isLoadingUpdate,
+        isLoadingPay,
+        isLoadingVerif,
         refetch,
         setValue,
     };

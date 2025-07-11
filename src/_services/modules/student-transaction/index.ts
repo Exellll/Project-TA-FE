@@ -42,6 +42,19 @@ export const studentTransactionApi = Api.injectEndpoints({
         };
       }
     }),
+    payStudentTransaction: build.mutation<{ success: boolean, data: StudentTransactionI }, Partial<StudentTransactionI>>({
+      query: ({ id, ...body }) => ({
+        url: `http://localhost:3003/school/student-transaction/pay/${id}`,
+        method: "PUT",
+        body,
+      }),
+    }),
+    verifyStudentTransaction: build.mutation<{ success: boolean; data: StudentTransactionI }, string>({
+      query: (id) => ({
+        url: `http://localhost:3003/school/student-transaction/verify/${id}`,
+        method: 'PATCH',
+      }),
+    }),
   }),
 });
 
@@ -52,4 +65,6 @@ export const {
   useCreateStudentTransactionMutation,
   useUpdateStudentTransactionMutation,
   useDeleteStudentTransactionMutation,
+  usePayStudentTransactionMutation,
+  useVerifyStudentTransactionMutation,
 } = studentTransactionApi;

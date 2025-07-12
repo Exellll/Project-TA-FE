@@ -25,6 +25,10 @@ export interface GradeRes {
     id: string;
     title: string;
     group: string;
+    teacher: {
+      id: string;
+      name: string;
+    }[];
   };
   class: {
     id: string;
@@ -35,3 +39,6 @@ export interface GradeRes {
   };
 }
 
+export interface GradeByStudentIdRes {
+  grades: GradeRes[];
+}

@@ -1,5 +1,5 @@
 import { Api } from "_services/api";
-import { BulkGradePayload, GradeRes } from "_interfaces/grade.interfaces";
+import { BulkGradePayload, GradeByStudentIdRes, GradeRes } from "_interfaces/grade.interfaces";
 
 export const gradeApi = Api.injectEndpoints({
   endpoints: (build) => ({
@@ -17,7 +17,13 @@ export const gradeApi = Api.injectEndpoints({
         method: "GET",
       }),
     }),
+    getGradesByStudent: build.query<GradeByStudentIdRes, { student_id: string }>({
+      query: ({ student_id }) => ({
+        url: `http://localhost:3003/school/grades/student/${student_id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useBulkCreateGradeMutation, useGetGradesByClassQuery } = gradeApi;
+export const { useBulkCreateGradeMutation, useGetGradesByClassQuery, useGetGradesByStudentQuery } = gradeApi;

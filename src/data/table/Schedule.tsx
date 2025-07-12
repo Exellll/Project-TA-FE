@@ -9,7 +9,7 @@ import { MdCreate, MdDelete, MdGrade, MdUpdate, MdVisibility } from "react-icons
 import { Button } from "react-daisyui";
 import { Class } from "_interfaces/class.interface";
 import { useNavigate } from "react-router-dom";
-export const HeaderGrade = (
+export const HeaderSchedule = (
   handleDeletePopUp: (id: string) => void,
   handleUpdate: (id: string) => void
 ): Columns<Class>[] => {
@@ -84,7 +84,7 @@ export const HeaderGrade = (
                 placeholder={""}
                 className="p-0"
                 onClick={() => {
-                  navigate(`/grade/input-grade/${data!.id}`);
+                  navigate(`/schedule/input/${data!.id}`);
                 }}
               >
                 <label
@@ -92,7 +92,7 @@ export const HeaderGrade = (
                   className="flex cursor-pointer items-center gap-2 p-2 hover:bg-gray-100"
                 >
                   <MdCreate className="mt-1 me-3 h-4 w-4" />
-                  Input Nilai
+                  Buat / Update Jadwal
                 </label>
               </MenuItem>
               <MenuItem
@@ -101,7 +101,7 @@ export const HeaderGrade = (
                 placeholder={""}
                 className="p-0"
                 onClick={() => {
-                  navigate(`/grade/view/${data!.id}`)
+                  navigate(`/schedule/view/${data!.id}`)
                 }}
               >
                 <label
@@ -109,7 +109,7 @@ export const HeaderGrade = (
                   className="flex cursor-pointer items-center gap-2 p-2 text-blue-ribbon-400 hover:bg-gray-100"
                 >
                   <MdVisibility className="mt-1 me-3 h-4 w-4" />
-                  Lihat Nilai
+                  Lihat Jadwal
                 </label>
               </MenuItem>
               <MenuItem

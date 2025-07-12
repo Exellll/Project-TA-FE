@@ -8,6 +8,7 @@ import {
   DashboardSVG,
   DigitalProductMenuSVG,
   EkskulMenuSVG,
+  GradeMenuSVG,
   LMSMenuSVG,
   LearningMaterialMenuSVG,
   MadingMenuSVG,
@@ -82,8 +83,8 @@ const menuItems: MenuItem[] = [
   {
     name: "Nilai",
     path: "/grade",
-    activeIcon: <SVGIcon svg={ScheduleMenuSVG} className="bg-white" />,
-    icon: <SVGIcon svg={ScheduleMenuSVG} className="bg-[#ACACAC]" />,
+    activeIcon: <SVGIcon svg={GradeMenuSVG} className="bg-white" />,
+    icon: <SVGIcon svg={GradeMenuSVG} className="bg-[#ACACAC]" />,
   },
   {
     name: "Ekskul",
@@ -143,12 +144,12 @@ const menuItems: MenuItem[] = [
     activeIcon: <SVGIcon svg={LearningMaterialMenuSVG} className="bg-white" />,
     icon: <SVGIcon svg={LearningMaterialMenuSVG} className="bg-[#ACACAC]" />,
   },
-  {
-    name: "Absensi",
-    path: "/presence",
-    activeIcon: <SVGIcon svg={AbsenceMenuSVG} className="bg-white" />,
-    icon: <SVGIcon svg={AbsenceMenuSVG} className="bg-[#ACACAC]" />,
-  },
+  // {
+  //   name: "Absensi",
+  //   path: "/presence",
+  //   activeIcon: <SVGIcon svg={AbsenceMenuSVG} className="bg-white" />,
+  //   icon: <SVGIcon svg={AbsenceMenuSVG} className="bg-[#ACACAC]" />,
+  // },
   // {
   //   name: "Penilaian",
   //   path: "/assessment",
@@ -185,18 +186,18 @@ const menuItems: MenuItem[] = [
   //   activeIcon: <SVGIcon svg={PPDBMenuSVG} className="bg-white" />,
   //   icon: <SVGIcon svg={PPDBMenuSVG} className="bg-[#ACACAC]" />,
   // },
-  {
-    name: "Perizinan",
-    path: "/leave-request",
-    activeIcon: <SVGIcon svg={PPDBMenuSVG} className="bg-white" />,
-    icon: <SVGIcon svg={PPDBMenuSVG} className="bg-[#ACACAC]" />,
-  },
-  {
-    name: "Setting Hari Efektif",
-    path: "/effective-day-settings",
-    activeIcon: <SVGIcon svg={PPDBMenuSVG} className="bg-white" />,
-    icon: <SVGIcon svg={PPDBMenuSVG} className="bg-[#ACACAC]" />,
-  },
+  // {
+  //   name: "Perizinan",
+  //   path: "/leave-request",
+  //   activeIcon: <SVGIcon svg={PPDBMenuSVG} className="bg-white" />,
+  //   icon: <SVGIcon svg={PPDBMenuSVG} className="bg-[#ACACAC]" />,
+  // },
+  // {
+  //   name: "Setting Hari Efektif",
+  //   path: "/effective-day-settings",
+  //   activeIcon: <SVGIcon svg={PPDBMenuSVG} className="bg-white" />,
+  //   icon: <SVGIcon svg={PPDBMenuSVG} className="bg-[#ACACAC]" />,
+  // },
 ];
 
 export { menuItems };

@@ -12,11 +12,11 @@ export const studentScholarshipsApi = Api.injectEndpoints({
       StudentScholarshipsReqI
     >({
       query: (param) =>
-        `http://localhost:3003/school/student-scholarships?page=${param.page}&limit=${param.limit}`,
+        `https://auth-ta.duckdns.org/school/school/student-scholarships?page=${param.page}&limit=${param.limit}`,
       keepUnusedDataFor: 0,
     }),
     getStudentScholarshipsById: build.query<StudentScholarshipsI, string>({
-      query: (id) => `http://localhost:3003/school/student-scholarships/${id}`,
+      query: (id) => `https://auth-ta.duckdns.org/school/school/student-scholarships/${id}`,
       keepUnusedDataFor: 0,
     }),
     createStudentScholarships: build.mutation<
@@ -25,7 +25,7 @@ export const studentScholarshipsApi = Api.injectEndpoints({
     >({
       query(body) {
         return {
-          url: `http://localhost:3003/school/student-scholarships`,
+          url: `https://auth-ta.duckdns.org/school/school/student-scholarships`,
           method: "POST",
           body,
         };
@@ -37,7 +37,7 @@ export const studentScholarshipsApi = Api.injectEndpoints({
     >({
       query(body) {
         return {
-          url: `http://localhost:3003/school/student-scholarships/${body.id}`,
+          url: `https://auth-ta.duckdns.org/school/school/student-scholarships/${body.id}`,
           method: "PUT",
           body,
         };
@@ -46,7 +46,7 @@ export const studentScholarshipsApi = Api.injectEndpoints({
     deleteStudentScholarships: build.mutation<{ success: boolean }, string>({
       query(id) {
         return {
-          url: `http://localhost:3003/school/student-scholarships/${id}`,
+          url: `https://auth-ta.duckdns.org/school/school/student-scholarships/${id}`,
           method: "DELETE",
         };
       },

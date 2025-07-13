@@ -9,11 +9,11 @@ export const studentPeriodicApi = Api.injectEndpoints({
   endpoints: (build) => ({
     getStudentPeriodic: build.query<StudentPeriodicResI, StudentPeriodicReqI>({
       query: (param) =>
-        `http://localhost:3003/school/student-periodic?page=${param.page}&limit=${param.limit}`,
+        `https://auth-ta.duckdns.org/school/school/student-periodic?page=${param.page}&limit=${param.limit}`,
       keepUnusedDataFor: 0,
     }),
     getStudentPeriodicById: build.query<StudentPeriodicI, string>({
-      query: (id) => `http://localhost:3003/school/student-periodic/${id}`,
+      query: (id) => `https://auth-ta.duckdns.org/school/school/student-periodic/${id}`,
       keepUnusedDataFor: 0,
     }),
     createStudentPeriodic: build.mutation<
@@ -22,7 +22,7 @@ export const studentPeriodicApi = Api.injectEndpoints({
     >({
       query(body) {
         return {
-          url: `http://localhost:3003/school/student-periodic`,
+          url: `https://auth-ta.duckdns.org/school/school/student-periodic`,
           method: "POST",
           body,
         };
@@ -34,7 +34,7 @@ export const studentPeriodicApi = Api.injectEndpoints({
     >({
       query(body) {
         return {
-          url: `http://localhost:3003/school/student-periodic/${body.id}`,
+          url: `https://auth-ta.duckdns.org/school/school/student-periodic/${body.id}`,
           method: "PUT",
           body,
         };
@@ -43,7 +43,7 @@ export const studentPeriodicApi = Api.injectEndpoints({
     deleteStudentPeriodic: build.mutation<{ success: boolean }, string>({
       query(id) {
         return {
-          url: `http://localhost:3003/school/student-periodic/${id}`,
+          url: `https://auth-ta.duckdns.org/school/school/student-periodic/${id}`,
           method: "DELETE",
         };
       },

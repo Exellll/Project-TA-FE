@@ -12,11 +12,11 @@ export const studentRegistrationApi = Api.injectEndpoints({
       StudentRegistrationReqI
     >({
       query: (param) =>
-        `http://localhost:3003/school/student-registration?page=${param.page}&limit=${param.limit}`,
+        `https://auth-ta.duckdns.org/school/school/student-registration?page=${param.page}&limit=${param.limit}`,
       keepUnusedDataFor: 0,
     }),
     getStudentRegistrationById: build.query<StudentRegistrationI, string>({
-      query: (id) => `http://localhost:3003/school/student-registration/${id}`,
+      query: (id) => `https://auth-ta.duckdns.org/school/school/student-registration/${id}`,
       keepUnusedDataFor: 0,
     }),
     createStudentRegistration: build.mutation<
@@ -25,7 +25,7 @@ export const studentRegistrationApi = Api.injectEndpoints({
     >({
       query(body) {
         return {
-          url: `http://localhost:3003/school/student-registration`,
+          url: `https://auth-ta.duckdns.org/school/school/student-registration`,
           method: "POST",
           body,
         };
@@ -37,7 +37,7 @@ export const studentRegistrationApi = Api.injectEndpoints({
     >({
       query(body) {
         return {
-          url: `http://localhost:3003/school/student-registration/${body.id}`,
+          url: `https://auth-ta.duckdns.org/school/school/student-registration/${body.id}`,
           method: "PUT",
           body,
         };
@@ -46,7 +46,7 @@ export const studentRegistrationApi = Api.injectEndpoints({
     deleteStudentRegistration: build.mutation<{ success: boolean }, string>({
       query(id) {
         return {
-          url: `http://localhost:3003/school/student-registration/${id}`,
+          url: `https://auth-ta.duckdns.org/school/school/student-registration/${id}`,
           method: "DELETE",
         };
       },

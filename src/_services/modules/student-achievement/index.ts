@@ -14,14 +14,14 @@ export const studentAchievementApi = Api.injectEndpoints({
       StudentAchievementReqI
     >({
       query: (param) =>
-        `http://localhost:3003/school/student-achievement?page=${param.page}&limit=${param.limit}`,
+        `https://auth-ta.duckdns.org/school/school/student-achievement?page=${param.page}&limit=${param.limit}`,
       keepUnusedDataFor: 0,
     }),
     getStudentAchievementById: build.query<
       StudentAchievementPayloadI[],
       string
     >({
-      query: (id) => `http://localhost:3003/school/student-achievement/${id}`,
+      query: (id) => `https://auth-ta.duckdns.org/school/school/student-achievement/${id}`,
       keepUnusedDataFor: 0,
     }),
     createStudentAchievement: build.mutation<
@@ -30,7 +30,7 @@ export const studentAchievementApi = Api.injectEndpoints({
     >({
       query(body) {
         return {
-          url: `http://localhost:3003/school/student-achievement`,
+          url: `https://auth-ta.duckdns.org/school/school/student-achievement`,
           method: "POST",
           body,
         };
@@ -42,7 +42,7 @@ export const studentAchievementApi = Api.injectEndpoints({
     >({
       query(body) {
         return {
-          url: `http://localhost:3003/school/student-achievement/${body.id}`,
+          url: `https://auth-ta.duckdns.org/school/school/student-achievement/${body.id}`,
           method: "PUT",
           body,
         };
@@ -51,7 +51,7 @@ export const studentAchievementApi = Api.injectEndpoints({
     deleteStudentAchievement: build.mutation<{ success: boolean }, string>({
       query(id) {
         return {
-          url: `http://localhost:3003/school/student-achievement/${id}`,
+          url: `https://auth-ta.duckdns.org/school/school/student-achievement/${id}`,
           method: "DELETE",
         };
       },

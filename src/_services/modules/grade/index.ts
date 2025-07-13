@@ -5,7 +5,7 @@ export const gradeApi = Api.injectEndpoints({
   endpoints: (build) => ({
     bulkCreateGrade: build.mutation<any, BulkGradePayload>({
       query: (body) => ({
-        url: "http://128.199.217.100:4001/school/bulk-grades",
+        url: "https://auth-ta.duckdns.org/school/school/bulk-grades",
         method: "POST",
         body,
       }),
@@ -13,13 +13,13 @@ export const gradeApi = Api.injectEndpoints({
     }),
     getGradesByClass: build.query<GradeRes[], { class_id: string }>({
       query: ({ class_id }) => ({
-        url: `http://128.199.217.100:4001/school/grades/class/${class_id}`,
+        url: `https://auth-ta.duckdns.org/school/school/grades/class/${class_id}`,
         method: "GET",
       }),
     }),
     getGradesByStudent: build.query<GradeByStudentIdRes, { student_id: string }>({
       query: ({ student_id }) => ({
-        url: `http://128.199.217.100:4001/school/grades/student/${student_id}`,
+        url: `https://auth-ta.duckdns.org/school/school/grades/student/${student_id}`,
         method: "GET",
       }),
     }),

@@ -11,17 +11,17 @@ export const studentBillApi = Api.injectEndpoints({
   endpoints: (build) => ({
     getListStudentBill: build.query<StudentBillResI, StudentBillReqI>({
       query: (param) =>
-        `http://128.199.217.100:4001/school/student-bill?page=${param.page}&limit=${param.limit}&search=${param.search}`,
+        `https://auth-ta.duckdns.org/school/school/student-bill?page=${param.page}&limit=${param.limit}&search=${param.search}`,
       keepUnusedDataFor: 0,
     }),
     getStudentBillById: build.query<StudentBillI, string>({
-      query: (id) => `http://128.199.217.100:4001/school/student-bill/${id}`,
+      query: (id) => `https://auth-ta.duckdns.org/school/school/student-bill/${id}`,
       keepUnusedDataFor: 0,
     }),
     createStudentBill: build.mutation<{ success: boolean }, StudentBillFormI>({
       query(body) {
         return {
-          url: `http://128.199.217.100:4001/school/student-bill`,
+          url: `https://auth-ta.duckdns.org/school/school/student-bill`,
           method: "POST",
           body,
         };
@@ -33,7 +33,7 @@ export const studentBillApi = Api.injectEndpoints({
     >({
       query({ class_id, ...payload }) {
         return {
-          url: `http://128.199.217.100:4001/school/student-bill/class/${class_id}`,
+          url: `https://auth-ta.duckdns.org/school/school/student-bill/class/${class_id}`,
           method: "POST",
           body: payload,
         };
@@ -42,7 +42,7 @@ export const studentBillApi = Api.injectEndpoints({
     updateStudentBill: build.mutation<{ success: boolean }, StudentBillFormI>({
       query(body) {
         return {
-          url: `http://128.199.217.100:4001/school/student-bill/${body.id}`,
+          url: `https://auth-ta.duckdns.org/school/school/student-bill/${body.id}`,
           method: "PUT",
           body,
         };
@@ -51,7 +51,7 @@ export const studentBillApi = Api.injectEndpoints({
     deleteStudentBill: build.mutation<{ success: boolean }, string>({
       query(id) {
         return {
-          url: `http://128.199.217.100:4001/school/student-bill/${id}`,
+          url: `https://auth-ta.duckdns.org/school/school/student-bill/${id}`,
           method: "DELETE",
         };
       },

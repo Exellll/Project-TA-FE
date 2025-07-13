@@ -5,17 +5,17 @@ export const announcementApi = Api.injectEndpoints({
   endpoints: (build) => ({
     getListAnnouncement: build.query<AnnouncementResI, AnnouncementReqI>({
       query: (param) =>
-        `http://128.199.217.100:4001/school/announcement?page=${param.page}&limit=${param.limit}&search=${param.search}`,
+        `https://auth-ta.duckdns.org/school/school/announcement?page=${param.page}&limit=${param.limit}&search=${param.search}`,
       keepUnusedDataFor: 0,
     }),
     getAnnouncementById: build.query<AnnouncementI, string>({
-      query: (id) => `http://128.199.217.100:4001/school/announcement/${id}`,
+      query: (id) => `https://auth-ta.duckdns.org/school/school/announcement/${id}`,
       keepUnusedDataFor: 0,
     }),
     createAnnouncement: build.mutation<{ success: boolean }, AnnouncementCreatePayload>({
       query(body) {
         return {
-          url: `http://128.199.217.100:4001/school/announcement`,
+          url: `https://auth-ta.duckdns.org/school/school/announcement`,
           method: 'POST',
           body,
         };
@@ -24,7 +24,7 @@ export const announcementApi = Api.injectEndpoints({
     updateAnnouncement: build.mutation<{ success: boolean }, AnnouncementUpdatePayload>({
       query(body) {
         return {
-          url: `http://128.199.217.100:4001/school/announcement/${body.id}`,
+          url: `https://auth-ta.duckdns.org/school/school/announcement/${body.id}`,
           method: 'PUT',
           body,
         };
@@ -33,7 +33,7 @@ export const announcementApi = Api.injectEndpoints({
     deleteAnnouncement: build.mutation<{ success: boolean }, string>({
       query(id) {
         return {
-          url: `http://128.199.217.100:4001/school/announcement/${id}`,
+          url: `https://auth-ta.duckdns.org/school/school/announcement/${id}`,
           method: 'DELETE',
         };
       },

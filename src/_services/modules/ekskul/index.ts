@@ -5,17 +5,17 @@ export const ekskulApi = Api.injectEndpoints({
   endpoints: (build) => ({
     getListEkskul: build.query<EkskulResI, EkskulReqI>({
       query: (param) =>
-        `http://128.199.217.100:4001/school/ekskul?page=${param.page}&limit=${param.limit}&search=${param.search}`,
+        `https://auth-ta.duckdns.org/school/school/ekskul?page=${param.page}&limit=${param.limit}&search=${param.search}`,
       keepUnusedDataFor: 0,
     }),
     getEkskulById: build.query<EkskulI, string>({
-      query: (id) => `http://128.199.217.100:4001/school/ekskul/${id}`,
+      query: (id) => `https://auth-ta.duckdns.org/school/school/ekskul/${id}`,
       keepUnusedDataFor: 0,
     }),
     createEkskul: build.mutation<{ success: boolean }, EkskulI>({
       query(body) {
         return {
-          url: `http://128.199.217.100:4001/school/ekskul`,
+          url: `https://auth-ta.duckdns.org/school/school/ekskul`,
           method: "POST",
           body,
         };
@@ -24,7 +24,7 @@ export const ekskulApi = Api.injectEndpoints({
     updateEkskul: build.mutation<{ success: boolean }, EkskulI>({
       query(body) {
         return {
-          url: `http://128.199.217.100:4001/school/ekskul/${body.id}`,
+          url: `https://auth-ta.duckdns.org/school/school/ekskul/${body.id}`,
           method: "PUT",
           body,
         };
@@ -33,7 +33,7 @@ export const ekskulApi = Api.injectEndpoints({
     deleteEkskul: build.mutation<{ success: boolean }, string>({
       query(id) {
         return {
-          url: `http://128.199.217.100:4001/school/ekskul/${id}`,
+          url: `https://auth-ta.duckdns.org/school/school/ekskul/${id}`,
           method: "DELETE",
         };
       },

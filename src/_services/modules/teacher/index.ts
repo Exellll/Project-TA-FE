@@ -5,17 +5,17 @@ export const teacherApi = Api.injectEndpoints({
   endpoints: (build) => ({
     getListTeacher: build.query<TeacherResI, TeacherReqI>({
       query: (param) =>
-        `http://128.199.217.100:4001/school/teacher?page=${param.page}&limit=${param.limit}&search=${param.search}`,
+        `https://auth-ta.duckdns.org/school/school/teacher?page=${param.page}&limit=${param.limit}&search=${param.search}`,
       keepUnusedDataFor: 0,
     }),
     getTeacherById: build.query<TeacherI, string>({
-      query: (id) => `http://128.199.217.100:4001/school/teacher/${id}`,
+      query: (id) => `https://auth-ta.duckdns.org/school/school/teacher/${id}`,
       keepUnusedDataFor: 0,
     }),
     createTeacher: build.mutation<{ success: boolean }, TeacherCreatePayload>({
       query(body) {
         return {
-          url: `http://128.199.217.100:4001/school/teacher`,
+          url: `https://auth-ta.duckdns.org/school/school/teacher`,
           method: "POST",
           body,
         };
@@ -24,7 +24,7 @@ export const teacherApi = Api.injectEndpoints({
     updateTeacher: build.mutation<{ success: boolean }, TeacherUpdatePayload>({
       query(body) {
         return {
-          url: `http://128.199.217.100:4001/school/teacher/${body.id}`,
+          url: `https://auth-ta.duckdns.org/school/school/teacher/${body.id}`,
           method: "PUT",
           body,
         };
@@ -33,7 +33,7 @@ export const teacherApi = Api.injectEndpoints({
     deleteTeacher: build.mutation<{ success: boolean }, string>({
       query(id) {
         return {
-          url: `http://128.199.217.100:4001/school/teacher/${id}`,
+          url: `https://auth-ta.duckdns.org/school/school/teacher/${id}`,
           method: "DELETE",
         };
       }

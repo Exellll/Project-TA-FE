@@ -5,17 +5,17 @@ export const pembimbingEkskulApi = Api.injectEndpoints({
   endpoints: (build) => ({
     getListPembimbingEkskul: build.query<PembimbingEkskulRes, PembimbingEkskulReq>({
       query: (param) =>
-        `http://128.199.217.100:4001/school/pembimbing?page=${param.page}&limit=${param.limit}&search=${param.search}`,
+        `https://auth-ta.duckdns.org/school/school/pembimbing?page=${param.page}&limit=${param.limit}&search=${param.search}`,
       keepUnusedDataFor: 0,
     }),
     getPembimbingEkskulById: build.query<PembimbingI, string>({
-      query: (id) => `http://128.199.217.100:4001/school/pembimbing/${id}`,
+      query: (id) => `https://auth-ta.duckdns.org/school/school/pembimbing/${id}`,
       keepUnusedDataFor: 0,
     }),
     createPembimbingEkskul: build.mutation<{ success: boolean }, PembimbingI>({
       query(body) {
         return {
-          url: `http://128.199.217.100:4001/school/pembimbing`,
+          url: `https://auth-ta.duckdns.org/school/school/pembimbing`,
           method: "POST",
           body,
         };
@@ -24,7 +24,7 @@ export const pembimbingEkskulApi = Api.injectEndpoints({
     updatePembimbingEkskul: build.mutation<{ success: boolean }, PembimbingI>({
       query(body) {
         return {
-          url: `http://128.199.217.100:4001/school/pembimbing/${body.id}`,
+          url: `https://auth-ta.duckdns.org/school/school/pembimbing/${body.id}`,
           method: "PUT",
           body,
         };
@@ -33,7 +33,7 @@ export const pembimbingEkskulApi = Api.injectEndpoints({
     deletePembimbingEkskul: build.mutation<{ success: boolean }, string>({
       query(id) {
         return {
-          url: `http://128.199.217.100:4001/school/pembimbing/${id}`,
+          url: `https://auth-ta.duckdns.org/school/school/pembimbing/${id}`,
           method: "DELETE",
         };
       },

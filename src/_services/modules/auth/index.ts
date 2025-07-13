@@ -29,7 +29,7 @@ export const userApi = Api.injectEndpoints({
           browserName = "Internet Explorer";
         }
         return {
-          url: "http://128.199.217.100:4000/login",
+          url: "https://auth-ta.duckdns.org/login",
           method: "POST",
           body,
           headers: {

@@ -34,6 +34,7 @@ import SchedulePage, { scheduleRouteName } from "pages/schedule/index.page";
 import ScheduleInputPage, { scheduleInputRouteName } from "pages/schedule/section/schedule-input.page";
 import StudentGradePage from "pages/student-page/grade.page";
 import ScheduleViewPage, { scheduleViewRouteName } from "pages/schedule/section/schedule-view.page";
+import StudentSchedulePage from "pages/student-page/schedule.page";
 
 
 const protectedRoutes: RouteObject[] = [
@@ -173,7 +174,7 @@ const studentRoutes: RouteObject[] = [
       },
       {
         path: "student/schedule",
-        element: <>Halaman Jadwal</>,
+        element: <StudentSchedulePage/>,
       },
       {
         path: "student/billing",

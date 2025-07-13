@@ -11,7 +11,7 @@ export const subjectRouteName = "subject";
 export default function SubjectPage(): React.ReactElement {
   const [searchParams, setSearchParams] = useState<Params>({
     search: "",
-    limit: 20,
+    limit: 10,
     page: 1,
   });
   const [type, setType] = useState<"create" | "update"> ("create");

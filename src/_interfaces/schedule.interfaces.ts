@@ -19,10 +19,14 @@ export interface ScheduleI {
 }
 
 export interface ScheduleClassRes{
-  schedules: ScheduleByClassId[];
+  schedules: ScheduleById[];
 }
 
-export interface ScheduleByClassId{
+export interface ScheduleStudentRes{
+  schedules: ScheduleById[];
+}
+
+export interface ScheduleById{
   id: string;
   day: ScheduleDay;
   start_time: string;

@@ -1,5 +1,5 @@
 import { Api } from "_services/api";
-import { ScheduleClassRes, ScheduleI, SchedulePayload } from "_interfaces/schedule.interfaces";
+import { ScheduleClassRes, ScheduleI, SchedulePayload, ScheduleStudentRes } from "_interfaces/schedule.interfaces";
 
 export const scheduleApi = Api.injectEndpoints({
   endpoints: (build) => ({
@@ -17,8 +17,14 @@ export const scheduleApi = Api.injectEndpoints({
         method: "GET",
       }),
     }),
+    getSchedulesByStudent: build.query<ScheduleStudentRes, { student_id: string }>({
+      query: ({ student_id }) => ({
+        url: `http://localhost:3003/schedule/student/${student_id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useCreateSchedulesBulkMutation, useGetSchedulesByClassQuery } =
+export const { useCreateSchedulesBulkMutation, useGetSchedulesByClassQuery, useGetSchedulesByStudentQuery } =
   scheduleApi;

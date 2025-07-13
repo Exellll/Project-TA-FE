@@ -5,17 +5,17 @@ export const studentApi = Api.injectEndpoints({
   endpoints: (build) => ({
     getStudents: build.query<StudentResI, StudentReqI>({
       query: (param) =>
-        `http://localhost:3003/school/student?page=${param.page}&limit=${param.limit}&is_draft=${param.is_draft}`,
+        `http://128.199.217.100:4001/school/student?page=${param.page}&limit=${param.limit}&is_draft=${param.is_draft}`,
       keepUnusedDataFor: 0,
     }),
     getStudentById: build.query<StudentI, string>({
-      query: (id) => `http://localhost:3003/school/student/${id}`,
+      query: (id) => `http://128.199.217.100:4001/school/student/${id}`,
       keepUnusedDataFor: 0,
     }),
   createStudent: build.mutation<{ student_id: string }, StudentFormI>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/student`,
+          url: `http://128.199.217.100:4001/school/student`,
           method: "POST",
           body,
         };
@@ -24,7 +24,7 @@ export const studentApi = Api.injectEndpoints({
     updateStudent: build.mutation<{ success: boolean }, StudentFormI>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/student/${body.id}`,
+          url: `http://128.199.217.100:4001/school/student/${body.id}`,
           method: "PUT",
           body,
         };
@@ -33,7 +33,7 @@ export const studentApi = Api.injectEndpoints({
     deleteStudent: build.mutation<{ success: boolean }, string>({
       query(id) {
         return {
-          url: `http://localhost:3003/school/student/${id}`,
+          url: `http://128.199.217.100:4001/school/student/${id}`,
           method: "DELETE",
         };
       },

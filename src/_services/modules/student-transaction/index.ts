@@ -5,21 +5,21 @@ export const studentTransactionApi = Api.injectEndpoints({
   endpoints: (build) => ({
     getListStudentTransaction: build.query<StudentTransactionRes, StudentTransactionReq>({
       query: (param) =>
-        `http://localhost:3003/school/student-transaction?page=${param.page}&limit=${param.limit}&search=${param.search}&type=${param.type}`,
+        `http://128.199.217.100:4001/school/student-transaction?page=${param.page}&limit=${param.limit}&search=${param.search}&type=${param.type}`,
       keepUnusedDataFor: 0,
     }),
     getStudentTransactionById: build.query<StudentTransactionI, string>({
-      query: (id) => `http://localhost:3003/school/student-transaction/${id}`,
+      query: (id) => `http://128.199.217.100:4001/school/student-transaction/${id}`,
       keepUnusedDataFor: 0,
     }),
     getStudentTransactionByStudentId: build.query<StudentTransactionListRes, string>({
-      query: (id) => `http://localhost:3003/school/student-transaction/student/${id}`,
+      query: (id) => `http://128.199.217.100:4001/school/student-transaction/student/${id}`,
       keepUnusedDataFor: 0,
     }),
     createStudentTransaction: build.mutation<{ success: boolean }, StudentTransactionI>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/student-transaction`,
+          url: `http://128.199.217.100:4001/school/student-transaction`,
           method: "POST",
           body,
         };
@@ -28,7 +28,7 @@ export const studentTransactionApi = Api.injectEndpoints({
     updateStudentTransaction: build.mutation<{ success: boolean }, StudentTransactionI>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/student-transaction/${body.id}`,
+          url: `http://128.199.217.100:4001/school/student-transaction/${body.id}`,
           method: "PUT",
           body,
         };
@@ -37,21 +37,21 @@ export const studentTransactionApi = Api.injectEndpoints({
     deleteStudentTransaction: build.mutation<{ success: boolean }, string>({
       query(id) {
         return {
-          url: `http://localhost:3003/school/student-transaction/${id}`,
+          url: `http://128.199.217.100:4001/school/student-transaction/${id}`,
           method: "DELETE",
         };
       }
     }),
     payStudentTransaction: build.mutation<{ success: boolean, data: StudentTransactionI }, Partial<StudentTransactionI>>({
       query: ({ id, ...body }) => ({
-        url: `http://localhost:3003/school/student-transaction/pay/${id}`,
+        url: `http://128.199.217.100:4001/school/student-transaction/pay/${id}`,
         method: "PUT",
         body,
       }),
     }),
     verifyStudentTransaction: build.mutation<{ success: boolean; data: StudentTransactionI }, string>({
       query: (id) => ({
-        url: `http://localhost:3003/school/student-transaction/verify/${id}`,
+        url: `http://128.199.217.100:4001/school/student-transaction/verify/${id}`,
         method: 'PATCH',
       }),
     }),

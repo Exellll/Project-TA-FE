@@ -12,26 +12,26 @@ export const subjectApi = Api.injectEndpoints({
   endpoints: (build) => ({
     getListSubject: build.query<SubjectResI, SubjectReqI>({
       query: (param) =>
-        `http://localhost:3003/school/subject?page=${param.page}&limit=${param.limit}`,
+        `http://128.199.217.100:4001/school/subject?page=${param.page}&limit=${param.limit}`,
       keepUnusedDataFor: 0,
     }),
     getListSubjectSocket: build.query<SubjectI[], {}>({
       query: (param) =>
-        `http://localhost:3003/school/subject-socket`,
+        `http://128.199.217.100:4001/school/subject-socket`,
       keepUnusedDataFor: 0,
     }),
     getListStaffSubject: build.query<StaffSubjectI[], {}>({
-      query: (param) => `http://localhost:3003/school/staff_subject`,
+      query: (param) => `http://128.199.217.100:4001/school/staff_subject`,
       keepUnusedDataFor: 0,
     }),
     getSubjectById: build.query<SubjectsI, string>({
-      query: (id) => `http://localhost:3003/school/subject/${id}`,
+      query: (id) => `http://128.199.217.100:4001/school/subject/${id}`,
       keepUnusedDataFor: 0,
     }),
     createSubject: build.mutation<{ success: boolean }, SubjectsI>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/subject`,
+          url: `http://128.199.217.100:4001/school/subject`,
           method: "POST",
           body,
         };
@@ -40,7 +40,7 @@ export const subjectApi = Api.injectEndpoints({
     updateSubject: build.mutation<{ success: boolean }, SubjectsI>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/subject/${body.id}`,
+          url: `http://128.199.217.100:4001/school/subject/${body.id}`,
           method: "PUT",
           body,
         };
@@ -49,7 +49,7 @@ export const subjectApi = Api.injectEndpoints({
     deleteSubject: build.mutation<{ success: boolean }, string>({
       query(id) {
         return {
-          url: `http://localhost:3003/school/subject/${id}`,
+          url: `http://128.199.217.100:4001/school/subject/${id}`,
           method: "DELETE",
         };
       },

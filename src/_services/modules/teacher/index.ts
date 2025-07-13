@@ -5,17 +5,17 @@ export const teacherApi = Api.injectEndpoints({
   endpoints: (build) => ({
     getListTeacher: build.query<TeacherResI, TeacherReqI>({
       query: (param) =>
-        `http://localhost:3003/school/teacher?page=${param.page}&limit=${param.limit}&search=${param.search}`,
+        `http://128.199.217.100:4001/school/teacher?page=${param.page}&limit=${param.limit}&search=${param.search}`,
       keepUnusedDataFor: 0,
     }),
     getTeacherById: build.query<TeacherI, string>({
-      query: (id) => `http://localhost:3003/school/teacher/${id}`,
+      query: (id) => `http://128.199.217.100:4001/school/teacher/${id}`,
       keepUnusedDataFor: 0,
     }),
     createTeacher: build.mutation<{ success: boolean }, TeacherCreatePayload>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/teacher`,
+          url: `http://128.199.217.100:4001/school/teacher`,
           method: "POST",
           body,
         };
@@ -24,7 +24,7 @@ export const teacherApi = Api.injectEndpoints({
     updateTeacher: build.mutation<{ success: boolean }, TeacherUpdatePayload>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/teacher/${body.id}`,
+          url: `http://128.199.217.100:4001/school/teacher/${body.id}`,
           method: "PUT",
           body,
         };
@@ -33,7 +33,7 @@ export const teacherApi = Api.injectEndpoints({
     deleteTeacher: build.mutation<{ success: boolean }, string>({
       query(id) {
         return {
-          url: `http://localhost:3003/school/teacher/${id}`,
+          url: `http://128.199.217.100:4001/school/teacher/${id}`,
           method: "DELETE",
         };
       }

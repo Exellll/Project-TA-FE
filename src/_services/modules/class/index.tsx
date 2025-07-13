@@ -19,7 +19,7 @@ export const ClassApi = Api.injectEndpoints({
         const limit = Number(params.limit);
         const search = params.search;
         return {
-          url: `http://localhost:3003/school/classes`,
+          url: `http://128.199.217.100:4001/school/classes`,
           params: { page, limit, search },
         };
       }, //
@@ -29,14 +29,14 @@ export const ClassApi = Api.injectEndpoints({
       query(params) {
         const id = params.id;
         return {
-          url: `http://localhost:3003/school/classes/${id}`,
+          url: `http://128.199.217.100:4001/school/classes/${id}`,
         };
       },
     }),
     createClass: build.mutation<CreateClassResI, CreateClassReqI>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/classes`,
+          url: `http://128.199.217.100:4001/school/classes`,
           method: "POST",
           body,
         };
@@ -46,7 +46,7 @@ export const ClassApi = Api.injectEndpoints({
       query(body) {
         const id = body.id;
         return {
-          url: `http://localhost:3003/school/classes/${id}`,
+          url: `http://128.199.217.100:4001/school/classes/${id}`,
           method: "PATCH",
           body,
         };
@@ -55,7 +55,7 @@ export const ClassApi = Api.injectEndpoints({
     deleteClass: build.mutation<{ success: boolean }, { id: string }>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/classes/${body.id}`,
+          url: `http://128.199.217.100:4001/school/classes/${body.id}`,
           method: "DELETE",
         };
       },
@@ -63,7 +63,7 @@ export const ClassApi = Api.injectEndpoints({
     addHomeroom: build.mutation<{ success: boolean }, AddHomeroomReqI>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/classes/${body.classId}/homeroom`,
+          url: `http://128.199.217.100:4001/school/classes/${body.classId}/homeroom`,
           body: body,
           method: "PUT",
         };
@@ -72,7 +72,7 @@ export const ClassApi = Api.injectEndpoints({
     deleteHomeroom: build.mutation<{ success: boolean }, { id: string }>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/classes/${body.id}/homeroom`,
+          url: `http://128.199.217.100:4001/school/classes/${body.id}/homeroom`,
           method: "DELETE",
         };
       },
@@ -80,7 +80,7 @@ export const ClassApi = Api.injectEndpoints({
     addSubject: build.mutation<{ success: boolean }, AddSubjectReqI>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/classes/${body.classId}`,
+          url: `http://128.199.217.100:4001/school/classes/${body.classId}`,
           method: "POST",
         };
       },
@@ -88,7 +88,7 @@ export const ClassApi = Api.injectEndpoints({
     deleteSubject: build.mutation<{ success: boolean }, { id: string }>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/classes/${body.id}`,
+          url: `http://128.199.217.100:4001/school/classes/${body.id}`,
           method: "DELETE",
         };
       },
@@ -96,7 +96,7 @@ export const ClassApi = Api.injectEndpoints({
     addStudent: build.mutation<{ success: boolean }, AddStudentReqI>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/classes/${body.classId}`,
+          url: `http://128.199.217.100:4001/school/classes/${body.classId}`,
           method: "POST",
         };
       },
@@ -104,7 +104,7 @@ export const ClassApi = Api.injectEndpoints({
     deleteStudent: build.mutation<{ success: boolean }, { id: string }>({
       query(body) {
         return {
-          url: `http://localhost:3003/school/classes/${body.id}`,
+          url: `http://128.199.217.100:4001/school/classes/${body.id}`,
           method: "DELETE",
         };
       },

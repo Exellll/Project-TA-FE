@@ -5,7 +5,7 @@ export const scheduleApi = Api.injectEndpoints({
   endpoints: (build) => ({
     createSchedulesBulk: build.mutation<SchedulePayload[], {}>({
       query: (data) => ({
-        url: "http://localhost:3003/schedule/bulk",
+        url: "http://128.199.217.100:4001/schedule/bulk",
         method: "POST",
         body: data,
       }),
@@ -13,13 +13,13 @@ export const scheduleApi = Api.injectEndpoints({
     }),
     getSchedulesByClass: build.query<ScheduleClassRes, { class_id: string }>({
       query: ({ class_id }) => ({
-        url: `http://localhost:3003/schedule/class/${class_id}`,
+        url: `http://128.199.217.100:4001/schedule/class/${class_id}`,
         method: "GET",
       }),
     }),
     getSchedulesByStudent: build.query<ScheduleStudentRes, { student_id: string }>({
       query: ({ student_id }) => ({
-        url: `http://localhost:3003/schedule/student/${student_id}`,
+        url: `http://128.199.217.100:4001/schedule/student/${student_id}`,
         method: "GET",
       }),
     }),

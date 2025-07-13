@@ -21,13 +21,16 @@ export interface AuthStateI {
   user?: User;
 }
 
+const token = localStorage.getItem("access_token");
+const user = localStorage.getItem("user");
+
 const initialState: AuthStateI = {
   loading: false,
-  accessToken: undefined,
+  accessToken: token || undefined,
+  user: user ? JSON.parse(user) : undefined,
   expiresAt: undefined,
   error: undefined,
   success: false,
-  user: undefined,
 };
 
 type LoginInfoPayload = {
@@ -41,10 +44,14 @@ const authSlice = createSlice({
     saveTokenAuth: (state: AuthStateI, { payload }: LoginInfoPayload) => {
       state.accessToken = payload.data.token;
       state.user = payload.data.user;
+      localStorage.setItem("access_token", payload.data.token);
+      localStorage.setItem("user", JSON.stringify(payload.data.user));
     },
     deleteTokenAuth: (state) => {
       state.accessToken = undefined;
       state.user = undefined;
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
     },
   },
 });

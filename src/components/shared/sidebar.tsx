@@ -1,9 +1,10 @@
 import { SchoolBadge } from "assets/images";
 import OptimizedImage from "components/Image/OptimizedImage";
-import { menuItems } from "data/sidebar-menu";
+import { MenuItem, menuItems, teacherMenuItems } from "data/sidebar-menu";
 import { useState } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { NavLink, useLocation } from "react-router-dom";
+import { useAppSelector } from "store";
 
 interface SidebarProps {
   active: boolean;
@@ -14,7 +15,19 @@ const Sidebar: React.FC<SidebarProps> = ({
   active,
   toggleSidebar,
 }): JSX.Element => {
-  const [menus, setMenus] = useState(menuItems);
+  const { accessToken } = useAppSelector((state) => state.auth);
+  const role = accessToken ? JSON.parse(atob(accessToken.split('.')[1])).role : null;
+  let selectedMenus: MenuItem[] = [];
+
+  if (role === "superadmin") {
+    selectedMenus = menuItems;
+  } else if (role === "teacher") {
+    selectedMenus = teacherMenuItems;
+  } else {
+    selectedMenus = [];
+  }
+
+  const [menus, setMenus] = useState(selectedMenus);
   const location = useLocation();
 
   return (
@@ -23,9 +36,8 @@ const Sidebar: React.FC<SidebarProps> = ({
         <div className="fixed z-[99] top-0 left-0 w-full h-full bg-black opacity-50 lg:hidden"></div>
       ) : null}
       <aside
-        className={`bg-[#FCFCFC] ${
-          active ? "w-[60%]" : "hidden lg:block"
-        } fixed lg:relative z-[999] left-0 inset-0 lg:inherit lg:w-[20%] max-h-screen overflow-y-scroll`}
+        className={`bg-[#FCFCFC] ${active ? "w-[60%]" : "hidden lg:block"
+          } fixed lg:relative z-[999] left-0 inset-0 lg:inherit lg:w-[20%] max-h-screen overflow-y-scroll`}
 
       >
         <div className="pl-4 pr-2">
@@ -87,11 +99,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                     }}
                   >
                     <li
-                      className={`flex items-center gap-4 rounded-3xl font-medium hover:bg-opacity-20 transition-all duration-100 p-4 ml-2 ${
-                        location.pathname.includes(item.path)
+                      className={`flex items-center gap-4 rounded-3xl font-medium hover:bg-opacity-20 transition-all duration-100 p-4 ml-2 ${location.pathname.includes(item.path)
                           ? "text-white"
                           : "text-[#ACACAC] hover:bg-neutral-400"
-                      }`}
+                        }`}
                     >
                       {location.pathname.includes(item.path)
                         ? item.activeIcon

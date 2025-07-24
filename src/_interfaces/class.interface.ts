@@ -22,8 +22,15 @@ export interface Class {
     {
       student_id: string,
       name: string,
+      grades: Grades[],
     }
   ]
+}
+
+export interface Grades {
+  score: number,
+  school_year: string,
+  semester: number
 }
 
 export interface ClassSubject {
@@ -58,6 +65,13 @@ export interface Params {
   search: string;
   limit: number;
   page: number;
+}
+
+export interface SBParams {
+  search: string;
+  limit: number;
+  page: number;
+  class_name?: string;
 }
 
 export interface StudentParams {

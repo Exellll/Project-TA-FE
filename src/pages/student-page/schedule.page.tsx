@@ -1,7 +1,7 @@
 import StudentContainer from "layout/container/index-student";
 import { useGetSchedulesByStudentQuery } from "_services/modules/schedule";
 import { useAppSelector } from "store";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ScheduleViewTable from "components/table/schedule-view-table";
 import { isEqual } from "lodash";
 
@@ -28,6 +28,7 @@ const StudentSchedulePage: React.FC = () => {
   );
 
   const schedules = data?.schedules || [];
+  const scheduleConfig = data?.schedule_config; // <- pastikan ini tersedia di backend
 
   const schoolYears = Array.from(new Set(schedules.map((item) => item.school_year)));
   const semesters = Array.from(new Set(schedules.map((item) => item.semester)));
@@ -41,40 +42,67 @@ const StudentSchedulePage: React.FC = () => {
     return matchYear && matchSemester;
   });
 
-  const timeSlots: TimeSlot[] = [
-    { time: "07:00", isBreak: false },
-    { time: "07:45", isBreak: false },
-    { time: "08:30", isBreak: false },
-    { time: "09:15", isBreak: true },
-    { time: "09:30", isBreak: false },
-    { time: "10:15", isBreak: false },
-    { time: "11:00", isBreak: false },
-    { time: "11:45", isBreak: true },
-    { time: "12:00", isBreak: false },
-    { time: "12:45", isBreak: false },
-    { time: "13:30", isBreak: false },
-    { time: "14:15", isBreak: false },
-  ];
+  const timeSlots: TimeSlot[] = useMemo(() => {
+    if (!scheduleConfig) return [];
+
+    const {
+      start_time,
+      end_time,
+      duration,
+      break_duration,
+      break_time,
+    } = scheduleConfig;
+
+    const breaks = break_time?.split(",").map((b: string) => parseInt(b.trim())) || [];
+    const result: TimeSlot[] = [];
+
+    const toMinutes = (timeStr: string) => {
+      const [h, m] = timeStr.split(":").map(Number);
+      return h * 60 + m;
+    };
+
+    const toTimeStr = (mins: number) => {
+      const h = Math.floor(mins / 60).toString().padStart(2, "0");
+      const m = (mins % 60).toString().padStart(2, "0");
+      return `${h}:${m}`;
+    };
+
+    let start = toMinutes(start_time);
+    const end = toMinutes(end_time);
+
+    let index = 0;
+    while (start < end) {
+      if (breaks.includes(index)) {
+        result.push({ time: toTimeStr(start), isBreak: true });
+        start += break_duration;
+      } else {
+        result.push({ time: toTimeStr(start), isBreak: false });
+        start += duration;
+      }
+      index++;
+    }
+
+    return result;
+  }, [scheduleConfig]);
 
   const [grid, setGrid] = useState<{ [day: string]: { [time: string]: string } }>({});
 
   useEffect(() => {
-  const newGrid: typeof grid = {};
+    const newGrid: typeof grid = {};
 
-  for (const item of filteredSchedules) {
-    const day = item.day;
-    const time = item.start_time.slice(0, 5);
-    const title = item.subject.title;
+    for (const item of filteredSchedules) {
+      const day = item.day;
+      const time = item.start_time.slice(0, 5);
+      const title = item.subject.title;
 
-    if (!newGrid[day]) newGrid[day] = {};
-    newGrid[day][time] = title;
-  }
+      if (!newGrid[day]) newGrid[day] = {};
+      newGrid[day][time] = title;
+    }
 
-  // Hindari update state jika data tidak berubah
-  if (!isEqual(grid, newGrid)) {
-    setGrid(newGrid);
-  }
-}, [filteredSchedules]);
+    if (!isEqual(grid, newGrid)) {
+      setGrid(newGrid);
+    }
+  }, [filteredSchedules]);
 
   return (
     <StudentContainer className="p-4">
@@ -124,7 +152,7 @@ const StudentSchedulePage: React.FC = () => {
         </div>
 
         {/* Table */}
-        {isLoading ? (
+        {isLoading || !scheduleConfig ? (
           <div className="flex justify-center items-center h-40">
             <span className="loading loading-spinner text-blue-500" />
           </div>

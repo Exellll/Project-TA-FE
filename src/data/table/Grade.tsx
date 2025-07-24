@@ -50,9 +50,8 @@ export const HeaderGrade = (
       label: "Status",
       render: (data) => (
         <p
-          className={`font-semibold ${
-            data?.status === "open" ? "text-[#45BF43]" : "text-[#FF0000]"
-          }`}
+          className={`font-semibold ${data?.status === "open" ? "text-[#45BF43]" : "text-[#FF0000]"
+            }`}
         >
           {data?.status}
         </p>
@@ -68,19 +67,19 @@ export const HeaderGrade = (
               <Button
                 size="sm"
                 className="rounded text-center text-lg hover:bg-transparent text-san-juan border-none"
-                onClick={() => {}}
+                onClick={() => { }}
               >
                 ...
               </Button>
             </MenuHandler>
             <MenuList
               placeholder=""
-              onPointerEnterCapture={() => {}}
-              onPointerLeaveCapture={() => {}}
+              onPointerEnterCapture={() => { }}
+              onPointerLeaveCapture={() => { }}
             >
               <MenuItem
-                onPointerEnterCapture={() => {}}
-                onPointerLeaveCapture={() => {}}
+                onPointerEnterCapture={() => { }}
+                onPointerLeaveCapture={() => { }}
                 placeholder={""}
                 className="p-0"
                 onClick={() => {
@@ -96,8 +95,8 @@ export const HeaderGrade = (
                 </label>
               </MenuItem>
               <MenuItem
-                onPointerEnterCapture={() => {}}
-                onPointerLeaveCapture={() => {}}
+                onPointerEnterCapture={() => { }}
+                onPointerLeaveCapture={() => { }}
                 placeholder={""}
                 className="p-0"
                 onClick={() => {
@@ -113,8 +112,25 @@ export const HeaderGrade = (
                 </label>
               </MenuItem>
               <MenuItem
-                onPointerEnterCapture={() => {}}
-                onPointerLeaveCapture={() => {}}
+                onPointerEnterCapture={() => { }}
+                onPointerLeaveCapture={() => { }}
+                placeholder={""}
+                onClick={() => {
+                  navigate(`/grade/rapor/${data!.id}`);
+                }}
+                className="p-0"
+              >
+                <label
+                  htmlFor="item-3"
+                  className="flex cursor-pointer items-center gap-2 p-2 text-green-700 hover:bg-gray-100"
+                >
+                  <MdGrade className="mt-1 me-3 h-4 w-4" />
+                  Cetak Rapor
+                </label>
+              </MenuItem>
+              <MenuItem
+                onPointerEnterCapture={() => { }}
+                onPointerLeaveCapture={() => { }}
                 placeholder={""}
                 className="p-0"
                 onClick={() => {

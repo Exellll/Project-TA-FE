@@ -10,6 +10,7 @@ export interface StudentBillReqI {
   search: string
   limit: number
   page: number
+  class_name?: string
 }
 
 export interface StudentBillI {
@@ -22,6 +23,12 @@ export interface StudentBillI {
   createdAt: string
   updatedAt: string
   students: Students
+  class_student?: [
+    {
+      id: string,
+      class_name: string
+    }
+  ]
 }
 
 export interface StudentBillFormI {

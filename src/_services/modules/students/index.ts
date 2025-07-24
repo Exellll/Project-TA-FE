@@ -1,4 +1,9 @@
-import { StudentFormI, StudentI, StudentReqI, StudentResI } from "_interfaces/student.interfaces";
+import {
+  StudentFormI,
+  StudentI,
+  StudentReqI,
+  StudentResI,
+} from "_interfaces/student.interfaces";
 import { Api } from "_services/api";
 
 export const studentApi = Api.injectEndpoints({
@@ -12,7 +17,7 @@ export const studentApi = Api.injectEndpoints({
       query: (id) => `https://auth-ta.duckdns.org/school/school/student/${id}`,
       keepUnusedDataFor: 0,
     }),
-  createStudent: build.mutation<{ student_id: string }, StudentFormI>({
+    createStudent: build.mutation<{ student_id: string }, StudentFormI>({
       query(body) {
         return {
           url: `https://auth-ta.duckdns.org/school/school/student`,
@@ -41,4 +46,10 @@ export const studentApi = Api.injectEndpoints({
   }),
 });
 
-export const { useGetStudentsQuery, useGetStudentByIdQuery, useCreateStudentMutation, useUpdateStudentMutation, useDeleteStudentMutation } = studentApi;
+export const {
+  useGetStudentsQuery,
+  useGetStudentByIdQuery,
+  useCreateStudentMutation,
+  useUpdateStudentMutation,
+  useDeleteStudentMutation,
+} = studentApi;

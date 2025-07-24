@@ -2,7 +2,7 @@ import moment from "moment";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "store";
 import "react-toastify/dist/ReactToastify.css";
-import { protectedRoutes, publicRoutes, studentRoutes } from "./routes";
+import { protectedRoutes, publicRoutes, studentRoutes, teacherRoutes } from "./routes";
 import { RouteObject, useNavigate, useRoutes } from "react-router-dom";
 import { deleteTokenAuth } from "store/auth";
 
@@ -21,7 +21,7 @@ const AppRoutes = () => {
       if (role === 'superadmin') {
         return protectedRoutes;
       } else if (role === 'teacher') {
-        return protectedRoutes;
+        return teacherRoutes;
       } else if (role === 'student') {
         return studentRoutes;
       } else if (role === 'parent') {

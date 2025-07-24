@@ -79,7 +79,13 @@ export interface StudentBill {
 }
 
 export interface Students {
-  name: string
+  name: string,
+  class_student: [
+    {
+      id: string,
+      name: string,
+    }
+  ]
 }
 
 

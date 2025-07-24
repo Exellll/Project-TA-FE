@@ -54,6 +54,8 @@ export default function StudentPage(): React.ReactElement {
     }
   };
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <ContentContainer>
       <DeletePopUp

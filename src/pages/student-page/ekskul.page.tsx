@@ -3,7 +3,6 @@ import StudentContainer from "layout/container/index-student";
 import { FaMapMarkerAlt, FaUsers, FaChalkboardTeacher, FaClock, FaSpinner } from "react-icons/fa";
 
 const StudentEkskulPage: React.FC = () => {
-    // Ganti ini sesuai hook yang kamu pakai
     const { pembimbing: pembimbingData, isLoading } = usePembimbingEkskulForm({
         page: 1,
         limit: 10,

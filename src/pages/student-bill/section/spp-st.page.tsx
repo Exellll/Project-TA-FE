@@ -8,6 +8,8 @@ import VerifyPaymentModal from "components/upsertModal/upsertModalVerif";
 import { HeaderStudentTransactionSPP, HeaderStudentTransactionSPPPaid } from "data/table/Student-transaction";
 import useStudentTransactionForm from "hooks/student-transaction/useStudentTransactionForm";
 import React, { useState } from "react";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import StudentTransactionPDF from "components/PDF/StudentTransactionPDF";
 
 export const studentTransactionSPPRouteName = "bill/spp";
 export default function StudentTransactionSPPPage(): React.ReactElement {
@@ -48,6 +50,13 @@ export default function StudentTransactionSPPPage(): React.ReactElement {
   const handlePageChange = async (page: number): Promise<void> => {
     setSearchParams({ ...searchParams, page });
   };
+
+  const currentMonth = String(new Date().getMonth() + 1).padStart(2, "0");
+  const [selectedMonth, setSelectedMonth] = useState<string>(currentMonth);
+
+  const filteredDataPaidPDF = studentTransactions?.studentTransactions?.filter(
+    (item) => item.status === "paid" && item.payment_date.startsWith(`2025-${selectedMonth}`)
+  );
 
   return (
     <>
@@ -93,13 +102,43 @@ export default function StudentTransactionSPPPage(): React.ReactElement {
           </div>
         </div>
       </ContentContainer>
-      <ContentContainer>        
+      <ContentContainer>
         <div className="grid grid-cols-1 gap-6">
           <div className="col-span-1">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <SearchBox className="py-4" />
                 {/* <SVGIcon svg={DownloadSVG} className="bg-blue-ribbon" /> */}
+                <div className="flex items-center gap-4">
+                  <select
+                    className="border rounded px-3 py-2 text-sm"
+                    value={selectedMonth}
+                    onChange={(e) => setSelectedMonth(e.target.value)}
+                  >
+                    <option value="01">Januari</option>
+                    <option value="02">Februari</option>
+                    <option value="03">Maret</option>
+                    <option value="04">April</option>
+                    <option value="05">Mei</option>
+                    <option value="06">Juni</option>
+                    <option value="07">Juli</option>
+                    <option value="08">Agustus</option>
+                    <option value="09">September</option>
+                    <option value="10">Oktober</option>
+                    <option value="11">November</option>
+                    <option value="12">Desember</option>
+                  </select>
+
+                  <PDFDownloadLink
+                    document={<StudentTransactionPDF data={filteredDataPaidPDF || []} month={selectedMonth} />}
+                    fileName={`laporan-transaksi-SPP-${selectedMonth}.pdf`}
+                    className="bg-blue-ribbon text-white px-4 py-2 rounded text-sm"
+                  >
+                    {({ loading }) => (
+                      <span>{loading ? "Memuat PDF..." : "Cetak PDF"}</span>
+                    )}
+                  </PDFDownloadLink>
+                </div>
               </div>
             </div>
           </div>

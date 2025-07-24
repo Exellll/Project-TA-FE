@@ -43,6 +43,7 @@ export default function SchedulePage(): React.ReactElement {
     const handlePageChange = async (page: number): Promise<void> => {
         setSearchParams({ ...searchParams, page });
     };
+    const [searchTerm, setSearchTerm] = useState("");
 
     return (
         <>

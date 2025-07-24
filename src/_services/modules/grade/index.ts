@@ -1,5 +1,10 @@
 import { Api } from "_services/api";
-import { BulkGradePayload, GradeByStudentIdRes, GradeRes } from "_interfaces/grade.interfaces";
+import {
+  BulkGradePayload,
+  GradeByStudentIdRes,
+  GradeRes,
+  RecommendationRes,
+} from "_interfaces/grade.interfaces";
 
 export const gradeApi = Api.injectEndpoints({
   endpoints: (build) => ({
@@ -17,13 +22,30 @@ export const gradeApi = Api.injectEndpoints({
         method: "GET",
       }),
     }),
-    getGradesByStudent: build.query<GradeByStudentIdRes, { student_id: string }>({
+    getGradesByStudent: build.query<
+      GradeByStudentIdRes,
+      { student_id: string }
+    >({
       query: ({ student_id }) => ({
         url: `https://auth-ta.duckdns.org/school/school/grades/student/${student_id}`,
+        method: "GET",
+      }),
+    }),
+    getStudentRecommendation: build.query<
+      RecommendationRes,
+      { student_id: string }
+    >({
+      query: ({ student_id }) => ({
+        url: `https://auth-ta.duckdns.org/school/school/student/${student_id}/recommendation`,
         method: "GET",
       }),
     }),
   }),
 });
 
-export const { useBulkCreateGradeMutation, useGetGradesByClassQuery, useGetGradesByStudentQuery } = gradeApi;
+export const {
+  useBulkCreateGradeMutation,
+  useGetGradesByClassQuery,
+  useGetGradesByStudentQuery,
+  useGetStudentRecommendationQuery,
+} = gradeApi;

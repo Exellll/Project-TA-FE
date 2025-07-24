@@ -54,6 +54,7 @@ const TableLayout = <T, P extends PaginationDefaultI>({
   useEffect(() => {
     setSelectedId(selectedColumn);
   }, [selectedColumn]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <ContentContainer>

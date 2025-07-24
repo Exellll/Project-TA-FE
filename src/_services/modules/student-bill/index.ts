@@ -11,7 +11,7 @@ export const studentBillApi = Api.injectEndpoints({
   endpoints: (build) => ({
     getListStudentBill: build.query<StudentBillResI, StudentBillReqI>({
       query: (param) =>
-        `https://auth-ta.duckdns.org/school/school/student-bill?page=${param.page}&limit=${param.limit}&search=${param.search}`,
+        `https://auth-ta.duckdns.org/school/school/student-bill?page=${param.page}&limit=${param.limit}&class_name=${param.class_name}&search=${param.search}`,
       keepUnusedDataFor: 0,
     }),
     getStudentBillById: build.query<StudentBillI, string>({

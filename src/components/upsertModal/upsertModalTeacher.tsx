@@ -81,7 +81,7 @@ export default function TeacherModal({
             <form onSubmit={type === "create" ? handleCreate : async (e?: React.BaseSyntheticEvent) => { await handleUpdate(e), refetch(); }}>
                 <Modal.Body className="flex flex-col justify-start items-start">
                     <p className="text-xl font-semibold text-start">
-                        {type === "create" ? "Form Create" : "Edit"} Ekskul
+                        {type === "create" ? "Form Create" : "Form Edit"} Guru
                     </p>
                     <div className="flex flex-col gap-2 w-full pt-4">
                         <label className="font-base">Nama</label>

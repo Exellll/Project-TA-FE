@@ -200,5 +200,20 @@ const menuItems: MenuItem[] = [
   // },
 ];
 
-export { menuItems };
+const teacherMenuItems: MenuItem[] = [
+  {
+    name: "Dashboard",
+    path: "/dashboard",
+    activeIcon: <SVGIcon svg={DashboardSVG} className="bg-white" />,
+    icon: <SVGIcon svg={DashboardSVG} className="bg-[#ACACAC]" />,
+  },
+  {
+    name: "Nilai",
+    path: "/grade",
+    activeIcon: <SVGIcon svg={GradeMenuSVG} className="bg-white" />,
+    icon: <SVGIcon svg={GradeMenuSVG} className="bg-[#ACACAC]" />,
+  },
+]
+
+export { menuItems, teacherMenuItems };
 export type { MenuItem };

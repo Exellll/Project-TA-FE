@@ -8,7 +8,7 @@ import { Params } from "_interfaces/class.interface";
 import { useCreateTeacherMutation, useDeleteTeacherMutation, useGetListTeacherQuery, useUpdateTeacherMutation } from "_services/modules/teacher";
 import { TeacherFormI, TeacherI } from "_interfaces/teachers.interfaces";
 import { toast } from "react-toastify";
-import { uploadFileLocal } from "_services/modules/file";
+import { uploadFileS3 } from "_services/modules/file";
 
 const useTeacherForm = (searchParams: Params, handler?: () => void, id?: string) => {
     const [create, { isLoading }] = useCreateTeacherMutation();
@@ -45,13 +45,13 @@ const useTeacherForm = (searchParams: Params, handler?: () => void, id?: string)
         mode: "onSubmit",
         resolver: yupResolver(schema),
         defaultValues: {
-            name: "",
-            nip: "",
-            email: "",
-            no_telepon: "",
-            address: "",
-            gender: "",
-            birth_date: "",
+            name: "Nama Guru",
+            nip: "1234567890",
+            email: "guru@example.com",
+            no_telepon: "081234567890",
+            address: "Jl. Pendidikan No. 1, Yogyakarta",
+            gender: "male",
+            birth_date: "1990-01-01",
             foto_url: "",
             status: "active",
             file: undefined,
@@ -63,7 +63,7 @@ const useTeacherForm = (searchParams: Params, handler?: () => void, id?: string)
         try {
             let foto_url = '';
             if (data.file) {
-                foto_url = await uploadFileLocal(data.file);
+                foto_url = await uploadFileS3(data.file);
                 console.log("Attachment URL:", foto_url);
             }
 
@@ -83,7 +83,7 @@ const useTeacherForm = (searchParams: Params, handler?: () => void, id?: string)
             handler && handler();
             toast.success("Guru berhasil dibuat");
             refetch();
-            reset({});
+            reset({name: "", nip: "", email: "", no_telepon: "", address: "", gender: "", birth_date: "", foto_url: "", status: "active", subject_ids: []});
         } catch (error) {
             errorHandler(error);
         }
@@ -93,11 +93,12 @@ const useTeacherForm = (searchParams: Params, handler?: () => void, id?: string)
         try {
             let foto_url = '';
             if (data.file) {
-                foto_url = await uploadFileLocal(data.file);
+                foto_url = await uploadFileS3(data.file);
                 console.log("Attachment URL:", foto_url);
             }
 
-            await create({
+            await update({
+                id: id || "",
                 name: data.name,
                 nip: data.nip,
                 email: data.email,
@@ -111,7 +112,7 @@ const useTeacherForm = (searchParams: Params, handler?: () => void, id?: string)
             }).unwrap();
 
             handler && handler();
-            toast.success("Guru berhasil dibuat");
+            toast.success("Guru berhasil diupdate");
             refetch();
             reset({});
         } catch (error) {

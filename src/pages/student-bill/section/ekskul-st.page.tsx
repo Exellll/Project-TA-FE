@@ -50,6 +50,7 @@ export default function StudentTransactionEkskulPage(): React.ReactElement {
   const handlePageChange = async (page: number): Promise<void> => {
     setSearchParams({ ...searchParams, page });
   };
+  const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <>

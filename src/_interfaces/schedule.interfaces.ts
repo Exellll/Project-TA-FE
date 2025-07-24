@@ -20,10 +20,24 @@ export interface ScheduleI {
 
 export interface ScheduleClassRes{
   schedules: ScheduleById[];
+  schedule_config: {
+    start_time: string;
+    end_time: string;
+    duration: number;
+    break_duration: number;
+    break_time: string;
+  };
 }
 
 export interface ScheduleStudentRes{
   schedules: ScheduleById[];
+  schedule_config: {
+    start_time: string;
+    end_time: string;
+    duration: number;
+    break_duration: number;
+    break_time: string;
+  };
 }
 
 export interface ScheduleById{
@@ -44,6 +58,9 @@ export interface SchedulePayload {
   day: ScheduleDay;
   start_time: string;
   end_time: string;
+  duration?: number;
+  break_duration?: number;
+  break_time?: string;
 }
 
 export interface Teacher {
@@ -61,3 +78,17 @@ export interface Class {
   id: string;
   name: string;
 }
+
+export interface ScheduleConfigPayload {
+  start_time: string;
+  end_time: string;
+  duration: number;
+  break_duration: number;
+  break_time: string;
+}
+
+export interface CreateScheduleWithConfigDto {
+  schedules: SchedulePayload[];
+  config: ScheduleConfigPayload;
+}
+

@@ -93,11 +93,11 @@ export default function AnnouncementModal({
           </div>
           <div className="flex flex-col gap-2 w-full pt-4">
             <label className="font-base">Isi Pengumuman</label>
-            <CInput
+            <textarea
               {...register("content")}
-              error={errors.content}
-              type="textarea"
-              className="w-full"
+              rows={6} // atau sesuai keinginan
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Tulis isi pengumuman di sini"
             />
           </div>
           <div className="flex flex-col gap-2 w-full pt-1">

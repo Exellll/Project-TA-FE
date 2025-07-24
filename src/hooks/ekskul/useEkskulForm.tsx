@@ -9,8 +9,6 @@ import { useCreateEkskulMutation, useDeleteEkskulMutation, useGetListEkskulQuery
 import { EkskulFormsI, EkskulI } from "_interfaces/ekskul.interfaces";
 import { toast } from "react-toastify";
 
-
-
 const useEkskulForm = (searchParams : Params, handler?: () => void, id?: string) => {
   const [create, { isLoading }] = useCreateEkskulMutation();
   const [update, { isLoading: isLoadingUpdate }] = useUpdateEkskulMutation();

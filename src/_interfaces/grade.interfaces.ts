@@ -42,3 +42,7 @@ export interface GradeRes {
 export interface GradeByStudentIdRes {
   grades: GradeRes[];
 }
+
+export interface RecommendationRes {
+  recommendation: string;
+}

@@ -7,7 +7,7 @@ import { errorHandler } from "_services/errorHandler";
 import { Params } from "_interfaces/class.interface";
 import { useCreateStudentTransactionMutation, useDeleteStudentTransactionMutation, useGetListStudentTransactionQuery, useUpdateStudentTransactionMutation, usePayStudentTransactionMutation, useVerifyStudentTransactionMutation } from "_services/modules/student-transaction";
 import { StudentTransactionFormsI, StudentTransactionI, StudentTransactionParams } from "_interfaces/student-transaction.interfaces";
-import { uploadFileST } from "_services/modules/file";
+import { uploadFileS3 } from "_services/modules/file";
 import { toast } from "react-toastify";
 import { on } from "events";
 
@@ -91,7 +91,7 @@ const useStudentTransactionForm = (searchParams: StudentTransactionParams, onSuc
             let uploadedUrl = "";
 
             if (file) {
-                uploadedUrl = await uploadFileST(file); // ← upload ke server lokal
+                uploadedUrl = await uploadFileS3(file); // ← upload ke server lokal
                 console.log("Uploaded URL:", uploadedUrl);
             } else {
                 throw new Error("File tidak ditemukan");

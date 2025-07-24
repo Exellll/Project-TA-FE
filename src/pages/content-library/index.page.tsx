@@ -115,6 +115,7 @@ export default function ContentLibraryPage(): React.ReactElement {
       setFolderData(folderData);
     }
   },[folderData]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <ContentContainer>

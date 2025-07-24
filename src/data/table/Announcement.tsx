@@ -23,7 +23,7 @@ export const HeaderAnnouncement = (
             fieldId: "index",
             label: "No",
         },
-        { fieldId: "title", label: "Nama" },
+        { fieldId: "title", label: "Judul Pengumuman" },
         { fieldId: "content", label: "Konten" },
         { fieldId: "type", label: "Tipe" },
         {

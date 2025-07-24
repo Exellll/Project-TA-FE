@@ -35,6 +35,8 @@ import ScheduleInputPage, { scheduleInputRouteName } from "pages/schedule/sectio
 import StudentGradePage from "pages/student-page/grade.page";
 import ScheduleViewPage, { scheduleViewRouteName } from "pages/schedule/section/schedule-view.page";
 import StudentSchedulePage from "pages/student-page/schedule.page";
+import ClassRaporPage, { classRaporPageRouteName } from "pages/grade/section/rapot.page";
+import StudentRaporPreview, { StudentRaporPreviewRouteName } from "pages/grade/section/rapot-preview.page";
 
 
 const protectedRoutes: RouteObject[] = [
@@ -80,9 +82,9 @@ const protectedRoutes: RouteObject[] = [
           },
         ],
       },
-      { element: <CreateStudentPage/>, path: createStudentRouteName },
+      { element: <CreateStudentPage />, path: createStudentRouteName },
       { element: <>"Alumni"</>, path: "/alumni" },
-      { 
+      {
         path: studentBillRouteName,
         children: [
           {
@@ -91,40 +93,40 @@ const protectedRoutes: RouteObject[] = [
           },
           {
             path: "/bill/spp",
-            element: <StudentTransactionSPPPage/>,
+            element: <StudentTransactionSPPPage />,
           },
           {
             path: "/bill/ekstrakulikuler",
-            element: <StudentTransactionEkskulPage/>,
+            element: <StudentTransactionEkskulPage />,
           },
         ]
       },
       { element: <>"Aset"</>, path: "/asset" },
       { element: <ContentLibraryPage />, path: "/materials" },
-      { element: <PresencePage/>, path: "/presence" },
+      { element: <PresencePage />, path: "/presence" },
       { element: <>"Penilaian"</>, path: "/assessment" },
       // { element: <>"Jadwal KBM"</>, path: "/kbm-schedule" },
       { element: <>"Mading Online"</>, path: "/mading" },
       { element: <>"LMS"</>, path: "/lms" },
       { element: <>"Digital Produk"</>, path: "/digital-product" },
       { element: <>"PPDB"</>, path: "/ppdb" },
-      { element: <LeaveRequestPage/>, path: leaveRequestRouteName },
-      { element: <EffectiveDaySettingsPage/>, path: effectiveDaySettingsRouteName },
+      { element: <LeaveRequestPage />, path: leaveRequestRouteName },
+      { element: <EffectiveDaySettingsPage />, path: effectiveDaySettingsRouteName },
       //Halaman Guru
-      { element: <TeacherPage/>, path: teacherRouteName },
+      { element: <TeacherPage />, path: teacherRouteName },
       // Halaman Ekstrakurikuler
-      { element: <EkskulPage/>, path: ekskulRouteName },
-      { element: <PembimbingEkskulPage/>, path: PembimbingEkskulRouteName },
+      { element: <EkskulPage />, path: ekskulRouteName },
+      { element: <PembimbingEkskulPage />, path: PembimbingEkskulRouteName },
       // Halaman Pengumuman
-      { element: <AnnouncementPage/>, path: announcementRouteName },
+      { element: <AnnouncementPage />, path: announcementRouteName },
       // Halaman Nilai Siswa
-      { element: <GradePage/>, path: gradeRouteName },
-      { element: <GradeInputPage/>, path: gradeInputRouteName},
-      { element: <ViewGradePage/>, path: viewGradeRouteName},
+      { element: <GradePage />, path: gradeRouteName },
+      { element: <GradeInputPage />, path: gradeInputRouteName },
+      { element: <ViewGradePage />, path: viewGradeRouteName },
       // Halaman Jadwal
-      { element: <SchedulePage/>, path: scheduleRouteName },
-      { element: <ScheduleInputPage/>, path: scheduleInputRouteName },
-      { element: <ScheduleViewPage/>, path: scheduleViewRouteName}
+      { element: <SchedulePage />, path: scheduleRouteName },
+      { element: <ScheduleInputPage />, path: scheduleInputRouteName },
+      { element: <ScheduleViewPage />, path: scheduleViewRouteName }
     ],
   },
 ];
@@ -162,34 +164,51 @@ const studentRoutes: RouteObject[] = [
   },
   {
     path: "",
-    element: <StudentLayout />, 
+    element: <StudentLayout />,
     children: [
       {
         path: "landingpage",
-        element: <StudentLandingPage/>,
+        element: <StudentLandingPage />,
       },
       {
         path: "student/grades",
-        element: <StudentGradePage/>,
+        element: <StudentGradePage />,
       },
       {
         path: "student/schedule",
-        element: <StudentSchedulePage/>,
+        element: <StudentSchedulePage />,
       },
       {
         path: "student/billing",
-        element: <StudentTransactionPage/>,
+        element: <StudentTransactionPage />,
       },
       {
         path: "student/announcement",
-        element: <StudentAnnouncementPage/>,
+        element: <StudentAnnouncementPage />,
       },
       {
         path: "student/ekstrakulikuler",
-        element: <StudentEkskulPage/>,
+        element: <StudentEkskulPage />,
       },
     ],
   },
 ];
 
-export { publicRoutes, protectedRoutes, studentRoutes };
+const teacherRoutes: RouteObject[] = [
+  { path: "*", element: <Navigate to="/dashboard" /> },
+  {
+    path: "",
+    element: <DashboardLayout />,
+    children: [
+      { path: "not-found", element: <>Page Not Found</> },
+      { path: "dashboard", element: <>dashboard</> },
+      { element: <GradePage />, path: gradeRouteName },
+      { element: <GradeInputPage />, path: gradeInputRouteName },
+      { element: <ViewGradePage />, path: viewGradeRouteName },
+      { element: <ClassRaporPage/>, path: classRaporPageRouteName},
+      { element: <StudentRaporPreview/>, path: StudentRaporPreviewRouteName}
+    ]
+  }
+];
+
+export { publicRoutes, protectedRoutes, studentRoutes, teacherRoutes};

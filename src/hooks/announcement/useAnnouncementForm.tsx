@@ -7,7 +7,7 @@ import { Params } from "_interfaces/class.interface";
 import { useCreateAnnouncementMutation, useDeleteAnnouncementMutation, useGetListAnnouncementQuery, useUpdateAnnouncementMutation } from "_services/modules/announcement";
 import { AnnouncementFormsI, AnnouncementI } from "_interfaces/announcement.interfaces";
 import { title } from "process";
-import { uploadFile, uploadFileLocal } from "_services/modules/file";
+import { uploadFile, uploadFileS3 } from "_services/modules/file";
 import { toast } from "react-toastify";
 
 
@@ -53,7 +53,7 @@ const useAnnouncementForm = (searchParams: Params, handler?: () => void, id?: st
         try {
             let attachment_url = '';
             if (data.file) {
-                attachment_url = await uploadFileLocal(data.file); // simpan ke storage lokal
+                attachment_url = await uploadFileS3(data.file); // simpan ke storage lokal
                 console.log("Attachment URL:", attachment_url);
             }
 
@@ -78,7 +78,7 @@ const useAnnouncementForm = (searchParams: Params, handler?: () => void, id?: st
         try {
             let attachment_url = data.attachment_url || '';
             if (data.file && (!data.attachment_url || data.file instanceof File)) {
-                attachment_url = await uploadFileLocal(data.file);
+                attachment_url = await uploadFileS3(data.file);
             }
 
 

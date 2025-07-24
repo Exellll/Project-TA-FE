@@ -96,7 +96,7 @@ export const ClassApi = Api.injectEndpoints({
     addStudent: build.mutation<{ success: boolean }, AddStudentReqI>({
       query(body) {
         return {
-          url: `https://auth-ta.duckdns.org/school/school/classes/${body.classId}`,
+          url: `http://localhost:3003/school/classes/${body.classId}`,
           method: "POST",
         };
       },

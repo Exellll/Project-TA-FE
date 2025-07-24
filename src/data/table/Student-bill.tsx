@@ -23,6 +23,7 @@ export const HeaderStudentBill = (
       label: "No",
     },
     { fieldId: "students.name", label: "Nama", render: (data) => (<p className="font-semibold">{data?.students?.name || '-'}</p>) },
+    { fieldId: "class_student.class_name", label: "Kelas", render: (data) => (<p className="font-semibold">{data?.class_student?.[0]?.class_name || '-'}</p>)},
     { fieldId: "type", label: "Tipe Tagihan" },
     { fieldId: "due_date", label: "Tanggal Jatuh Tempo" },
     {

@@ -49,12 +49,12 @@ export const uploadFile = async (token: string, image: File) => {
   }
 };
 
-export const uploadFileLocal = async (file: File) => {
+export const uploadFileS3 = async (file: File) => {
   try {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch("http://localhost:3003/school/announcement-upload", {
+    const response = await fetch("https://auth-ta.duckdns.org/school/upload", {
       method: "POST",
       body: formData,
     });
@@ -77,7 +77,7 @@ export const uploadFileST = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch("http://localhost:3003/school/studentTransaction-upload", {
+    const response = await fetch("https://auth-ta.duckdns.org/school/school/studentTransaction-upload", {
       method: "POST",
       body: formData,
     });

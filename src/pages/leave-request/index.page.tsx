@@ -43,6 +43,7 @@ export default function LeaveRequestPage(): React.ReactElement {
   };
 
   const { leave_request, isLoading, handleReject} = useLeaveRequest(searchParams, selectedId);
+  const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <ContentContainer>

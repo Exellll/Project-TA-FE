@@ -5,6 +5,7 @@ import { Button } from "react-daisyui";
 import ReactMarkdown from 'react-markdown';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import StudentRaporDocument from 'components/PDF/StudentRaporPDF';
+import StudentRaporDocumentSignature from "components/PDF/StudentRaporDocumentSignature";
 
 export const StudentRaporPreviewRouteName = '/grade/rapor/:class_id/student/:student_id'
 export default function StudentRaporPreview(): React.ReactElement {
@@ -93,23 +94,40 @@ export default function StudentRaporPreview(): React.ReactElement {
             )}
 
             {grades && student && recommendation && (
-                <div className="flex justify-end mt-4">
+                <div className="flex justify-end gap-3 mt-4">
+                    <PDFDownloadLink
+                        document={
+                            <StudentRaporDocumentSignature
+                                studentName={student.name}
+                                nisn={student.nisn}
+                                className={grades.grades[0]?.class?.name ?? "-"}
+                                schoolYear={grades.grades[0]?.school_year ?? "-"}
+                                semester={grades.grades[0]?.semester ?? 1}
+                                grades={grades.grades}
+                            />
+                        }
+                        fileName={`rapor_${student.name.replace(/\s+/g, "_")}_tanda_tangan.pdf`}
+                        className="btn rounded-xl hover:text-blue-ribbon bg-blue-ribbon text-white hover:bg-white/90 hover:border-blue-ribbon"
+                    >
+                        {({ loading }) => <span>{loading ? "Menyiapkan..." : "Download Rapor (Tanda Tangan)"}</span>}
+                    </PDFDownloadLink>
+
                     <PDFDownloadLink
                         document={
                             <StudentRaporDocument
                                 studentName={student.name}
                                 nisn={student.nisn}
-                                className={grades.grades[0]?.class?.name ?? '-'}
-                                schoolYear={grades.grades[0]?.school_year ?? '-'}
+                                className={grades.grades[0]?.class?.name ?? "-"}
+                                schoolYear={grades.grades[0]?.school_year ?? "-"}
                                 semester={grades.grades[0]?.semester ?? 1}
                                 grades={grades.grades}
                                 recommendation={recommendation?.recommendation}
                             />
                         }
-                        fileName={`rapor_${student.name.replace(/\s+/g, '_')}.pdf`}
+                        fileName={`rapor_${student.name.replace(/\s+/g, "_")}_analisis_ai.pdf`}
                         className="btn rounded-xl hover:text-blue-ribbon bg-blue-ribbon text-white hover:bg-white/90 hover:border-blue-ribbon"
                     >
-                        {({ loading }) => <span>{loading ? 'Menyiapkan...' : 'Download Rapor'}</span>}
+                        {({ loading }) => <span>{loading ? "Menyiapkan..." : "Download Rapor (Analisis AI)"}</span>}
                     </PDFDownloadLink>
                 </div>
             )}
